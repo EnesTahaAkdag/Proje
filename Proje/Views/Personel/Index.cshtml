@@ -1,0 +1,45 @@
+﻿@model List<Proje.Models.EntitiyFramework.Personel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("Yeni Personel", "Yeni", null, new { @class = "btn btn-success" })
+<br>
+<br>
+@{Html.RenderAction("ToplamMaas", "Personel");}
+<h2>Personel Listesi</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>Soyad</th>
+            <th>Departman</th>
+            <th>Maaş</th>
+            <th>Yaş</th>
+            <th>Doğum Tarihi</th>
+            <th>Cinsiyet</th>
+            <th>Evlilik Durumu</th>
+            <th>Güncelle</th>
+            <th>Sil</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var personel in Model)
+        {
+            <tr>
+                <td>@personel.Name</td>
+                <td>@personel.SurName</td>
+                <td>@personel.Departman.Name</td>
+                <td>@personel.Wage</td>
+                <td>@(DateTime.Now.Year - personel.BirthDate.Value.Year)</td>
+                
+                <td>@personel.BirthDate.Value.ToString("dd-MM-yyyy")</td>
+
+                <td>@(personel.Gender == true ? "Erkek":"Kadın")</td>
+                <td>@(personel.Married==true?"Evli":"Bekar")</td>
+                <td>@Html.ActionLink("Güncelle", "Guncelle", new { id = personel.Id }, new { @class = "btn btn-success" })</td>
+                <td>@Html.ActionLink("Sil", "Sil", new { id = personel.Id }, new { @class = "btn btn-danger", onclick = "return confirm('Silmek İstediğinize Emin misiniz')" })</td>
+            </tr>
+        }
+    </tbody>
+</table>

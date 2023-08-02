@@ -1,0 +1,59 @@
+﻿@model Proje.ViewModels.Class1
+@{
+    ViewBag.Title = "PersonelForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Personel Formu</h2>
+@using (Html.BeginForm("Kaydet", "Personel", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.Personel.Name)
+        @Html.TextBoxFor(m => m.Personel.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Personel.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Personel.SurName)
+        @Html.TextBoxFor(m => m.Personel.SurName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Personel.SurName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Personel.DepartmanId)
+        @Html.DropDownListFor(m => m.Personel.DepartmanId, new SelectList(Model.Departmanlar, "Id", "Name"), "Departman Seçiniz", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Personel.DepartmanId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Personel.Wage)
+        @Html.TextBoxFor(m => m.Personel.Wage, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Personel.Wage)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Personel.BirthDate)
+        @Html.TextBoxFor(m => m.Personel.BirthDate, "{0:yyyy-MM-dd}", new
+   {
+       @class = "form-control",
+       type = "date",
+       min = "1900-01-01",
+       max = DateTime.Now.ToString("yyyy-MM-dd")
+        })
+        @Html.ValidationMessageFor(m => m.Personel.BirthDate)
+    </div>
+    <div class="radio">
+        <label>
+            @Html.RadioButtonFor(m => m.Personel.Gender, true) Erkek
+        </label>
+        <label>
+            @Html.RadioButtonFor(m => m.Personel.Gender, false) Kadın
+        </label>
+        @Html.ValidationMessageFor(m => m.Personel.Gender)
+    </div>
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m => m.Personel.Married) Evliyseniz Seçiniz
+        </label>
+    </div>
+    @Html.HiddenFor(m => m.Personel.Id)
+    <button type="submit" class="btn btn-default">Kaydet</button>
+
+}

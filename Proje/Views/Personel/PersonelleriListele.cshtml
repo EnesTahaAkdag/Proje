@@ -1,0 +1,24 @@
+﻿@model  IEnumerable<Proje.Models.EntitiyFramework.Personel>
+<h1>Personellerin Listesi</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>SoyAd</th>
+            <th>Doğum Tarihi</th>
+            <th>Maaş</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var personel in Model)
+        {
+            <tr>
+                <td>@personel.Name</td>
+                <td>@personel.SurName</td>
+                <td>@personel.Date_of_Birth.Value.ToShortDateString()</td>
+                <td>@personel.Wage TL</td>
+                
+            </tr>
+        }
+    </tbody>
+</table>

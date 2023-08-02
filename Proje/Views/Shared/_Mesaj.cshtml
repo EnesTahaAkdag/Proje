@@ -1,0 +1,8 @@
+﻿@model Proje.ViewModels.MesajVievModelController
+
+@if (Model.Status)
+{
+    <div class="alert alert-success">
+        @Model.Mesaj<a href="@Model.Url">@Model.LinkText</a>
+    </div>
+}
