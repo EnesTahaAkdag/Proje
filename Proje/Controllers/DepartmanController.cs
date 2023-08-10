@@ -80,11 +80,5 @@ namespace Proje.Controllers
                 db.Departman.Remove(silinecekDepartman);
                 return RedirectToAction("Index");
             }
-            else
-            {
-                return View("RecordInUse");
-            }
-            db.SaveChanges();
-        }
     }
 }
