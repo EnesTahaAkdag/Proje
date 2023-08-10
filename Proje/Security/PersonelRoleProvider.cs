@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.ModelBinding;
 using System.Web.Security;
 
 namespace Proje.Security
@@ -12,8 +13,8 @@ namespace Proje.Security
     {
         public override string ApplicationName
         {
-           get { throw new NotImplementedException(); }
-           set { throw new NotImplementedException(); }
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
         }
 
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)

@@ -6,7 +6,7 @@
 <div id="mesaj">
 
 </div>
-@using (Ajax.BeginForm("Kaydet", "Departman", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "mesaj" }))
+@using (Html.BeginForm("Kaydet", "Departman", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "mesaj" }))
 {
     @Html.AntiForgeryToken()
     <div class="form-group">

@@ -32,16 +32,21 @@ namespace Proje.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Kaydet(Departman departman)
         {
-            //Departmanı Ekler Ve Güncelleme Yapar
-            MesajVievModelController model = new MesajVievModelController();
             if (!ModelState.IsValid)
             {
                 return View("DepartmanForm", departman);
             }
+
+            var departmanAdiVarmi = db.Departman.FirstOrDefault(d => d.Name == departman.Name);
+            if (departmanAdiVarmi != null)
+            { 
+            ModelState.AddModelError("Name", "Bu isimde bir departman zaten mevcut.");
+            return View("DepartmanForm",departman);
+            }
+
             if (departman.Id == 0)
             {
                 db.Departman.Add(departman);
-                model.Mesaj = departman.Name + " " + " Departman Adı Eklendi " + " ";
             }
             else
             {
@@ -51,16 +56,21 @@ namespace Proje.Controllers
                     return HttpNotFound();
                 }
                 guncellenecekDepartman.Name = departman.Name;
-                model.Mesaj = departman.Name + " " + "Departman Adı Eklendi" + " ";
             }
+
             db.SaveChanges();
+
+            MesajVievModelController model = new MesajVievModelController();
             model.Status = true;
+            model.Mesaj = departman.Name + (departman.Id == 0 ? " Departman Adı Eklendi " : " Departman Adı Güncellendi ");
             model.LinkText = "Departman Listesi";
             model.Url = "/Departman/Index";
+
             return View("_Mesaj", model);
         }
         public ActionResult Guncelle(int id)
         {
+
             var model = db.Departman.Find(id);
             if (model == null)
                 return HttpNotFound();

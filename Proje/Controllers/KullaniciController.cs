@@ -49,6 +49,12 @@ namespace Proje.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Password,Role")] Kullanici kullanici)
         {
+            var kullaniciAdiVarmi = db.Kullanici.FirstOrDefault(k => k.Name == kullanici.Name);
+            if(kullaniciAdiVarmi!=null)
+            {
+                ModelState.AddModelError("Name", "Bu isimde bir Kullanıcı zaten mevcut.");
+                return View(kullanici); 
+            }
             if (ModelState.IsValid)
             {
                 db.Kullanici.Add(kullanici);
