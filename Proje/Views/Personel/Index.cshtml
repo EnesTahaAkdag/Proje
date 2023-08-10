@@ -8,7 +8,7 @@
 <br>
 @{Html.RenderAction("ToplamMaas", "Personel");}
 <h2>Personel Listesi</h2>
-<table class="table table-bordered">
+<table class="table table-bordered" id="tblPersoneller">
     <thead>
         <tr>
             <th>Ad</th>
@@ -29,16 +29,21 @@
             <tr>
                 <td>@personel.Name</td>
                 <td>@personel.SurName</td>
-                <td>@personel.Departman.Name</td>
+                @if (personel.Departman == null)
+                {
+                    <td>DEPARTMAN YOK</td>
+                }
+                else
+                {
+                    <td>@personel.Departman.Name</td>
+                }
                 <td>@personel.Wage</td>
                 <td>@(DateTime.Now.Year - personel.BirthDate.Value.Year)</td>
-                
                 <td>@personel.BirthDate.Value.ToString("dd-MM-yyyy")</td>
-
-                <td>@(personel.Gender == true ? "Erkek":"Kadın")</td>
+                <td>@(personel.Gender == true ?"Erkek":"Kadın")</td>
                 <td>@(personel.Married==true?"Evli":"Bekar")</td>
                 <td>@Html.ActionLink("Güncelle", "Guncelle", new { id = personel.Id }, new { @class = "btn btn-success" })</td>
-                <td>@Html.ActionLink("Sil", "Sil", new { id = personel.Id }, new { @class = "btn btn-danger", onclick = "return confirm('Silmek İstediğinize Emin misiniz')" })</td>
+                <td><a class="btn btn-danger btnPersonelSil" data-id="@personel.Id">Sil</a></td>
             </tr>
         }
     </tbody>

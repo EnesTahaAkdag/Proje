@@ -10,7 +10,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ELMAH_Error">
           <Key>
@@ -33,9 +33,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Role" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="Role" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Personel">
           <Key>
@@ -43,11 +43,11 @@
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DepartmanId" Type="bigint" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="SurName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Wage" Type="smallint" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="SurName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Wage" Type="decimal" Precision="18" Scale="2" />
           <Property Name="BirthDate" Type="datetime" />
-          <Property Name="Gender" Type="bit" Nullable="false" />
+          <Property Name="Gender" Type="bit" />
           <Property Name="Married" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -90,9 +90,9 @@
         <EntityContainer Name="PersonelDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ELMAH_Error" EntityType="PersonelDBModel.ELMAH_Error" />
           <EntitySet Name="Kullanici" EntityType="PersonelDBModel.Kullanici" />
+          <EntitySet Name="Personel" EntityType="PersonelDBModel.Personel" />
           <EntitySet Name="sysdiagrams" EntityType="PersonelDBModel.sysdiagrams" />
           <EntitySet Name="Departman" EntityType="PersonelDBModel.Departman" />
-          <EntitySet Name="Personel" EntityType="PersonelDBModel.Personel" />
           <AssociationSet Name="FK_Personel_Departman" Association="PersonelDBModel.FK_Personel_Departman">
             <End Role="Departman" EntitySet="Departman" />
             <End Role="Personel" EntitySet="Personel" />
@@ -119,9 +119,23 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Role" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Personel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmanId" Type="Int64" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SurName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Wage" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BirthDate" Type="DateTime" Precision="3" />
+          <Property Name="Gender" Type="Boolean" />
+          <Property Name="Married" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Departman" Relationship="PersonelDBModel.FK_Personel_Departman" FromRole="Personel" ToRole="Departman" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -138,22 +152,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Personel" Relationship="PersonelDBModel.FK_Personel_Departman" FromRole="Departman" ToRole="Personel" />
-        </EntityType>
-        <EntityType Name="Personel">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DepartmanId" Type="Int64" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SurName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Wage" Type="Int16" Nullable="false" />
-          <Property Name="BirthDate" Type="DateTime" Precision="3" />
-          <Property Name="Gender" Type="Boolean" Nullable="false" />
-          <Property Name="Married" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Departman" Relationship="PersonelDBModel.FK_Personel_Departman" FromRole="Personel" ToRole="Departman" />
         </EntityType>
         <Association Name="FK_Personel_Departman">
           <End Type="PersonelDBModel.Departman" Role="Departman" Multiplicity="0..1" />
@@ -167,7 +167,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -200,6 +200,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Personel">
+            <EntityTypeMapping TypeName="PersonelDBModel.Personel">
+              <MappingFragment StoreEntitySet="Personel">
+                <ScalarProperty Name="Married" ColumnName="Married" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Wage" ColumnName="Wage" />
+                <ScalarProperty Name="SurName" ColumnName="SurName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DepartmanId" ColumnName="DepartmanId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="PersonelDBModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -219,21 +233,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Personel">
-            <EntityTypeMapping TypeName="PersonelDBModel.Personel">
-              <MappingFragment StoreEntitySet="Personel">
-                <ScalarProperty Name="Married" ColumnName="Married" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
-                <ScalarProperty Name="Wage" ColumnName="Wage" />
-                <ScalarProperty Name="SurName" ColumnName="SurName" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="DepartmanId" ColumnName="DepartmanId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          </EntityContainerMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

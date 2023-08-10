@@ -40,7 +40,6 @@ namespace Proje.Security
         {
             throw new NotImplementedException();
         }
-
         public override string[] GetRolesForUser(string username)
         {
             PersonelDBEntities db = new PersonelDBEntities();

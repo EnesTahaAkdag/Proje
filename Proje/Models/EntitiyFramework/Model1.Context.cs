@@ -27,8 +27,8 @@ namespace Proje.Models.EntitiyFramework
     
         public virtual DbSet<ELMAH_Error> ELMAH_Error { get; set; }
         public virtual DbSet<Kullanici> Kullanici { get; set; }
+        public virtual DbSet<Personel> Personel { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Departman> Departman { get; set; }
-        public virtual DbSet<Personel> Personel { get; set; }
     }
 }

@@ -18,16 +18,12 @@ namespace Proje.App_Start
                 "~/Scripts/DataTables/jquery.dataTables.min.js",
                 "~/Scripts/DataTables/dataTables.bootstrap.min.js",
                 "~/Scripts/custom.js",
-                "~/Scripts/bootbox.min.js",
-                "~/Scripts/toastr.min.js",
-                "~/Scripts/toastr.js"
+                "~/Scripts/bootbox.min.js"
                 ));
             bundles.Add(new StyleBundle("~/bundles/css").Include(
                 "~/Content/bootstrap.min.css",
                 "~/Content/sitee.css",
-                "~/Content/DataTables/css/dataTables.bootstrap.min.css",
-                "~/Content/toastr.min.css",
-                "~/Content/toastr.css"
+                "~/Content/DataTables/css/dataTables.bootstrap.min.css"
                 ));
         }
     }

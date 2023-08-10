@@ -8,7 +8,6 @@ namespace Proje.ViewModels
 {
     public class MesajVievModelController 
     {
-        
         public bool Status { get; set; }
         public string Mesaj { get; set; }
         public string Url { get; set; }

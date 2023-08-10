@@ -1,6 +1,7 @@
 ﻿using Proje.Models.EntitiyFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,7 +17,8 @@ namespace Proje.Controllers
         // GET: Security
         public ActionResult Login()
         {
-            return View();
+            var model = new Kullanici();
+            return View(model);
         }
         [HttpPost]
         public ActionResult Login(Kullanici kullanici)

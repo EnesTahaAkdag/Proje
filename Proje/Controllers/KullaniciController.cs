@@ -38,7 +38,8 @@ namespace Proje.Controllers
         // GET: Kullanici/Create
         public ActionResult Create()
         {
-            return View();
+            var model = new Kullanici();
+            return View(model);
         }
 
         // POST: Kullanici/Create

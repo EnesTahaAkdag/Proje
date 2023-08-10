@@ -9,8 +9,6 @@
 <br>
 @{Html.RenderAction("ToplamMaas", "Personel");}
 <h2>Departman Listesi</h2>
-
-
 <table class="table table-bordered" id="tblDepartmanlar">
     <thead>
         <tr>
@@ -27,14 +25,11 @@
             <tr>
                 <td>@departman.Id</td>
                 <td>@departman.Name</td>
-                <td><a class="btn btn-primary" href="/Departman/Guncelle/@departman.Id">Güncelle</a></td>
-                <td><a data-id="@departman.Id" class="btn btn-warning btnDepartmanSil">Sil</a></td>
+                <td><a class="btn btn-success" href="/Departman/Guncelle/@departman.Id">Güncelle</a></td>
+                <td><a class="btn btn-danger btnDepartmanSil" data-id="@departman.Id" >Sil</a></td>
                 <td>
-                    @Ajax.ActionLink("Personelleri Göster", "PersonelleriListele", "Personel", new { id = departman.Id }, new AjaxOptions
-                    {
-                        HttpMethod = "GET",
-                   UpdateTargetId = "personelListesi"
-                    }, new { @class = "btn btn-primary" })
+                    @Ajax.ActionLink("Personelleri Göster", "PersonelleriListele", "Personel", new { id = departman.Id },
+                    new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "personelListesi" }, new { @class = "btn btn-primary" })
                 </td>
             </tr>
         }

@@ -3,6 +3,7 @@ using Proje.Models.EntitiyFramework;
 using Proje.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -27,15 +28,15 @@ namespace Proje.Controllers
         {
             return View("DepartmanForm", new Departman());
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Kaydet(Departman departman)
         {
+            //Departmanı Ekler Ve Güncelleme Yapar
             MesajVievModelController model = new MesajVievModelController();
             if (!ModelState.IsValid)
             {
-                return View("DepartmanForm");
+                return View("DepartmanForm", departman);
             }
             if (departman.Id == 0)
             {
@@ -55,30 +56,60 @@ namespace Proje.Controllers
             db.SaveChanges();
             model.Status = true;
             model.LinkText = "Departman Listesi";
-            model.Url = "Departman";
+            model.Url = "/Departman/Index";
             return View("_Mesaj", model);
         }
         public ActionResult Guncelle(int id)
         {
             var model = db.Departman.Find(id);
             if (model == null)
-            {
                 return HttpNotFound();
-            }
             return View("DepartmanForm", model);
         }
-
-        public ActionResult Sil(int id)
+        [HttpPost]
+        public ActionResult Personelvarmi(int departmanId)
         {
-            var silinecekDepartman = db.Departman.Find(id);
-            if (silinecekDepartman == null)
+            //Departmanın İçerisindeki Personeli Kontrol Eder
+            var personelVarmi = db.Personel.Any(x => x.DepartmanId == departmanId);
+            return Json(personelVarmi);
+        }
+        [HttpPost]
+        public ActionResult Sil(int departmanId, string type)
+        {
+            var silinecekDepartman = db.Departman.Find(departmanId);
+            var personels = db.Personel.Where(x => x.DepartmanId == departmanId).ToList();
+            //Boş Departmanı Sil
+            if (type == "onlyDpt")
             {
-                return HttpNotFound();
-            }
-            if (db.Personel.FirstOrDefault(x => x.DepartmanId == id) == null)
-            {
+                if (silinecekDepartman == null)
+                    return HttpNotFound();
                 db.Departman.Remove(silinecekDepartman);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            //Departmanı Sil Personeli Boşa Çıkar
+            else if (type == "removeDptemptyPersonel")
+            {
+                foreach (var item in personels)
+                    item.DepartmanId = null;
+                db.Departman.Remove(silinecekDepartman);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            //Departman ve Personeli Birlikte Sil
+            else if (type == "removeDptandPersonel")
+            {
+                if (personels == null || silinecekDepartman == null)
+                    return HttpNotFound();
+                foreach (var item in personels)
+                {
+                    db.Personel.Remove(item);
+                }
+                db.Departman.Remove(silinecekDepartman);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Departman", "Index");
+        }
     }
 }

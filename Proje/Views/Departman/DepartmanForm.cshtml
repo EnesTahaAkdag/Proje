@@ -3,23 +3,17 @@
     ViewBag.Title = "Yeni";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div id="mesaj">
 
 </div>
-@using (Ajax.BeginForm("Kaydet", "Departman",new AjaxOptions { HttpMethod = "POST",UpdateTargetId="mesaj"}))
+@using (Ajax.BeginForm("Kaydet", "Departman", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "mesaj" }))
 {
     @Html.AntiForgeryToken()
-
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
     <div class="form-group">
         @Html.LabelFor(m => m.Name)
-
-        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" ,placeholder="Departman Adı Giriniz", required = "required" })
-
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Departman Adı Giriniz"})
         @Html.ValidationMessageFor(m => m.Name)
     </div>
     @Html.HiddenFor(m => m.Id)
-    <button type="submit" class="btn btn-success" id="toastrSucces">Kaydet</button>
+    <button type="submit" class="btn btn-success">Kaydet</button>
 }

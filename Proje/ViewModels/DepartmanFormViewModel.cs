@@ -11,9 +11,6 @@ namespace Proje.ViewModels
     public class DepartmanFormViewModel
     {
         public int Id { get; set; }
-
-        [Display(Name = "Departman Adı")]
-        [Required(ErrorMessage = "Departman Adı zorunludur")]
         public string Name { get; set; }
         public Departman Departman { get; set; }
     }
