@@ -16,43 +16,29 @@ namespace Proje.Models.EntitiyFramework
     public partial class Personel
     {
         public long Id { get; set; }
-        
-        
         [Display(Name = "Departman Adý")]
-        //[Required(ErrorMessage = "Departman Adý Boþ Býrakýlamaz")]
-        //[StringLength(50, ErrorMessage = "50 Karakterden Fazla Karakter Giriþi Yapýlamaz")]
         public Nullable<long> DepartmanId { get; set; }
-        
         
         [Display(Name = "Personel Adý")]
         [Required(ErrorMessage = "Personel Adý Boþ Býrakýlamaz")]
         [StringLength(50, ErrorMessage = "50 Karakterden Fazla Karakter Giriþi Yapýlamaz")]
         public string Name { get; set; }
         
-        
         [Display(Name = "Personel Soyadý")]
         [Required(ErrorMessage = "Personel Soyadý Boþ Býrakýlamaz")]
         [StringLength(50, ErrorMessage = "50 Karakterden Fazla Karakter Giriþi Yapýlamaz")]
         public string SurName { get; set; }
-        
-        
+       
         [Display(Name = "Personel Maaþý")]
         [Required(ErrorMessage = "Personel Maaþý Boþ Býrakýlamaz")]
-        //[StringLength(50, ErrorMessage = "50 Karakterden Fazla Karakter Giriþi Yapýlamaz")]
         public Nullable<decimal> Wage { get; set; }
-        
         
         [Display(Name = "Personel Doðum Tarihi")]
         [Required(ErrorMessage = "Personel Doðum Tarihi Boþ Býrakýlamaz")]
-        
         public Nullable<System.DateTime> BirthDate { get; set; }
         
-        
         [Required(ErrorMessage = "Personel Cinsiyeti Boþ Býrakýlamaz")]
-        
-        
         public Nullable<bool> Gender { get; set; }
-        
         
         public bool Married { get; set; }
     

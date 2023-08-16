@@ -16,7 +16,7 @@
                 <td>@personel.Name</td>
                 <td>@personel.SurName</td>
                 <td>@personel.BirthDate.Value.ToShortDateString()</td>
-                <td>@personel.Wage TL</td>
+                <td>@personel.Wage.Value.ToString("0,0.00") TL</td>
                 
             </tr>
         }

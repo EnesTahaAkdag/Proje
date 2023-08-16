@@ -31,14 +31,14 @@
                 <td>@personel.SurName</td>
                 @if (personel.Departman == null)
                 {
-                    <td>DEPARTMAN YOK</td>
+                    <td></td>
                 }
                 else
                 {
                     <td>@personel.Departman.Name</td>
                 }
-                <td>@personel.Wage</td>
-                <td>@(DateTime.Now.Year - personel.BirthDate.Value.Year)</td>
+                <td>@personel.Wage.Value.ToString("0,0.00")</td>
+                <td>@(DateTime.Now.Year - personel.BirthDate.Value.Year)   </td>
                 <td>@personel.BirthDate.Value.ToString("dd-MM-yyyy")</td>
                 <td>@(personel.Gender == true ?"Erkek":"Kadın")</td>
                 <td>@(personel.Married==true?"Evli":"Bekar")</td>
