@@ -8,6 +8,9 @@ using System.Data.Entity;
 using Proje.ViewModels;
 using System.Drawing.Printing;
 using System.Diagnostics;
+using System.IO;
+using System.Runtime.Remoting.Contexts;
+using Microsoft.Ajax.Utilities;
 
 namespace Proje.Controllers
 {
@@ -16,7 +19,6 @@ namespace Proje.Controllers
     {
         PersonelDBEntities db = new PersonelDBEntities();
         // GET: Personel
-
         public ActionResult Index()
         {
             var model = db.Personel.ToList();
@@ -83,6 +85,21 @@ namespace Proje.Controllers
         {
             ViewBag.Maas = db.Personel.Sum(x => x.Wage);
             return PartialView();
+        }
+        [HttpPost]
+        public ActionResult Create(PersonelImage img, HttpPostedFileBase file)
+        {
+            if (ModelState.IsValid)
+            {
+                if (file != null)
+                {
+
+                }
+                db.PersonelImage.Add(img);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
         }
     }
 }

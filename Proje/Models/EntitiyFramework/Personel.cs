@@ -11,37 +11,29 @@ namespace Proje.Models.EntitiyFramework
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
+    using System.Web;
 
     public partial class Personel
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Personel()
+        {
+            this.PersonelImage = new HashSet<PersonelImage>();
+        }
+    
         public long Id { get; set; }
-        [Display(Name = "Departman Adý")]
         public Nullable<long> DepartmanId { get; set; }
-        
-        [Display(Name = "Personel Adý")]
-        [Required(ErrorMessage = "Personel Adý Boþ Býrakýlamaz")]
-        [StringLength(50, ErrorMessage = "50 Karakterden Fazla Karakter Giriþi Yapýlamaz")]
         public string Name { get; set; }
-        
-        [Display(Name = "Personel Soyadý")]
-        [Required(ErrorMessage = "Personel Soyadý Boþ Býrakýlamaz")]
-        [StringLength(50, ErrorMessage = "50 Karakterden Fazla Karakter Giriþi Yapýlamaz")]
         public string SurName { get; set; }
-       
-        [Display(Name = "Personel Maaþý")]
-        [Required(ErrorMessage = "Personel Maaþý Boþ Býrakýlamaz")]
         public Nullable<decimal> Wage { get; set; }
-        
-        [Display(Name = "Personel Doðum Tarihi")]
-        [Required(ErrorMessage = "Personel Doðum Tarihi Boþ Býrakýlamaz")]
         public Nullable<System.DateTime> BirthDate { get; set; }
-        
-        [Required(ErrorMessage = "Personel Cinsiyeti Boþ Býrakýlamaz")]
         public Nullable<bool> Gender { get; set; }
-        
         public bool Married { get; set; }
     
         public virtual Departman Departman { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PersonelImage> PersonelImage { get; set; }
+        public HttpPostedFileBase FileName { get; internal set; }
+        public string PersonelImage1 { get; internal set; }
     }
 }

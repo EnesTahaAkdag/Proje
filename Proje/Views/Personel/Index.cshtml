@@ -11,6 +11,7 @@
 <table class="table table-bordered" id="tblPersoneller">
     <thead>
         <tr>
+            <th>Personel Resmi</th>
             <th>Ad</th>
             <th>Soyad</th>
             <th>Departman</th>
@@ -27,6 +28,7 @@
         @foreach (var personel in Model)
         {
             <tr>
+                <td><img src="@personel.FileName"/></td>
                 <td>@personel.Name</td>
                 <td>@personel.SurName</td>
                 @if (personel.Departman == null)

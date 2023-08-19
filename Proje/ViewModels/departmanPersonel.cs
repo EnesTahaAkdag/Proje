@@ -10,5 +10,6 @@ namespace Proje.ViewModels
     {
         public IEnumerable<Departman> Departmanlar { get; set; }
         public Personel Personel { get; set; }
+        public object PersonelImageFile { get; internal set; }
     }
 }

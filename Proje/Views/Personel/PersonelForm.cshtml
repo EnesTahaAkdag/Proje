@@ -7,7 +7,7 @@
 
 </div>
 <h2>Personel Formu</h2>
-@using (Html.BeginForm("Kaydet", "Personel", FormMethod.Post))
+@using (Html.BeginForm("Kaydet", "Personel", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="form-group">
@@ -27,14 +27,15 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Personel.Wage)
-        @Html.TextBoxFor(m => m.Personel.Wage,  new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.Personel.Wage, new { @class = "form-control", @maxlength = "20" })
         @Html.ValidationMessageFor(m => m.Personel.Wage)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Personel.BirthDate)
-        @Html.TextBoxFor(m => m.Personel.BirthDate, "{0:yyyy-MM-dd}", new {@class = "form-control",type = "date",min = "1900-01-01",max = DateTime.Now.ToString("yyyy-MM-dd")})
+        @Html.TextBoxFor(m => m.Personel.BirthDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = "1900-01-01", max = DateTime.Now.ToString("yyyy-MM-dd") })
         @Html.ValidationMessageFor(m => m.Personel.BirthDate)
     </div>
+
     <div class="radio">
         <label>
             @Html.RadioButtonFor(m => m.Personel.Gender, true) Erkek
@@ -50,6 +51,9 @@
         </label>
     </div>
     @Html.HiddenFor(m => m.Personel.Id)
+    <input type="file" name="file" id="file" />
+    <br />
     <button type="submit" class="btn btn-default">Kaydet</button>
-
+    @ViewBag.Message
 }
+

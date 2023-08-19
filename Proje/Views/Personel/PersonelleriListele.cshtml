@@ -3,6 +3,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
+            <th>Personel Resimi</th>
             <th>Ad</th>
             <th>SoyAd</th>
             <th>Doğum Tarihi</th>
@@ -13,11 +14,11 @@
         @foreach (var personel in Model)
         {
             <tr>
+                <td><img src="@Url.Action("GetImage", "Employee", new { id = personel.Id })" alt="@personel." /></td>
                 <td>@personel.Name</td>
                 <td>@personel.SurName</td>
                 <td>@personel.BirthDate.Value.ToShortDateString()</td>
                 <td>@personel.Wage.Value.ToString("0,0.00") TL</td>
-                
             </tr>
         }
     </tbody>
