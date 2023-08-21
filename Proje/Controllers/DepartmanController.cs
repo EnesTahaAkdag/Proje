@@ -33,9 +33,8 @@ namespace Proje.Controllers
         public ActionResult Kaydet(Departman departman)
         {
             if (!ModelState.IsValid)
-            {
-                return View("DepartmanForm", departman);
-            }
+            { }
+            
 
             var departmanAdiVarmi = db.Departman.FirstOrDefault(d => d.Name == departman.Name);
             if (departmanAdiVarmi != null)

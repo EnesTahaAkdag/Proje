@@ -28,7 +28,6 @@ namespace Proje.Models.EntitiyFramework
         public virtual DbSet<Departman> Departman { get; set; }
         public virtual DbSet<Kullanici> Kullanici { get; set; }
         public virtual DbSet<Personel> Personel { get; set; }
-        public virtual DbSet<PersonelImage> PersonelImage { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     }
 }

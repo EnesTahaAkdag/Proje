@@ -33,14 +33,7 @@
           <Property Name="BirthDate" Type="datetime" />
           <Property Name="Gender" Type="bit" />
           <Property Name="Married" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PersonelImage">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PersonelID" Type="bigint" />
-          <Property Name="PersonelImage" Type="nvarchar(max)" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -52,7 +45,7 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
-        <Association Name="FK_Personel_Departman1">
+        <Association Name="FK_Personel_Departman">
           <End Role="Departman" Type="Self.Departman" Multiplicity="0..1" />
           <End Role="Personel" Type="Self.Personel" Multiplicity="*" />
           <ReferentialConstraint>
@@ -64,31 +57,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PersonelImage_Personel">
-          <End Role="Personel" Type="Self.Personel" Multiplicity="0..1" />
-          <End Role="PersonelImage" Type="Self.PersonelImage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personel">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PersonelImage">
-              <PropertyRef Name="PersonelID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="PersonelDBModelStoreContainer">
           <EntitySet Name="Departman" EntityType="Self.Departman" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kullanici" EntityType="Self.Kullanici" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personel" EntityType="Self.Personel" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PersonelImage" EntityType="Self.PersonelImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Personel_Departman1" Association="Self.FK_Personel_Departman1">
+          <AssociationSet Name="FK_Personel_Departman" Association="Self.FK_Personel_Departman">
             <End Role="Departman" EntitySet="Departman" />
             <End Role="Personel" EntitySet="Personel" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PersonelImage_Personel" Association="Self.FK_PersonelImage_Personel">
-            <End Role="Personel" EntitySet="Personel" />
-            <End Role="PersonelImage" EntitySet="PersonelImage" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -99,15 +75,10 @@
           <EntitySet Name="Departman" EntityType="PersonelDBModel.Departman" />
           <EntitySet Name="Kullanici" EntityType="PersonelDBModel.Kullanici" />
           <EntitySet Name="Personel" EntityType="PersonelDBModel.Personel" />
-          <EntitySet Name="PersonelImage" EntityType="PersonelDBModel.PersonelImage" />
           <EntitySet Name="sysdiagrams" EntityType="PersonelDBModel.sysdiagrams" />
-          <AssociationSet Name="FK_Personel_Departman1" Association="PersonelDBModel.FK_Personel_Departman1">
+          <AssociationSet Name="FK_Personel_Departman" Association="PersonelDBModel.FK_Personel_Departman">
             <End Role="Departman" EntitySet="Departman" />
             <End Role="Personel" EntitySet="Personel" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PersonelImage_Personel" Association="PersonelDBModel.FK_PersonelImage_Personel">
-            <End Role="Personel" EntitySet="Personel" />
-            <End Role="PersonelImage" EntitySet="PersonelImage" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Departman">
@@ -116,7 +87,7 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Personel" Relationship="PersonelDBModel.FK_Personel_Departman1" FromRole="Departman" ToRole="Personel" />
+          <NavigationProperty Name="Personel" Relationship="PersonelDBModel.FK_Personel_Departman" FromRole="Departman" ToRole="Personel" />
         </EntityType>
         <EntityType Name="Kullanici">
           <Key>
@@ -139,17 +110,8 @@
           <Property Name="BirthDate" Type="DateTime" Precision="3" />
           <Property Name="Gender" Type="Boolean" />
           <Property Name="Married" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Departman" Relationship="PersonelDBModel.FK_Personel_Departman1" FromRole="Personel" ToRole="Departman" />
-          <NavigationProperty Name="PersonelImage" Relationship="PersonelDBModel.FK_PersonelImage_Personel" FromRole="Personel" ToRole="PersonelImage" />
-        </EntityType>
-        <EntityType Name="PersonelImage">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PersonelID" Type="Int64" />
-          <Property Name="PersonelImage1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Personel" Relationship="PersonelDBModel.FK_PersonelImage_Personel" FromRole="PersonelImage" ToRole="Personel" />
+          <Property Name="FileName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Departman" Relationship="PersonelDBModel.FK_Personel_Departman" FromRole="Personel" ToRole="Departman" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -161,7 +123,7 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <Association Name="FK_Personel_Departman1">
+        <Association Name="FK_Personel_Departman">
           <End Type="PersonelDBModel.Departman" Role="Departman" Multiplicity="0..1" />
           <End Type="PersonelDBModel.Personel" Role="Personel" Multiplicity="*" />
           <ReferentialConstraint>
@@ -170,18 +132,6 @@
             </Principal>
             <Dependent Role="Personel">
               <PropertyRef Name="DepartmanId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PersonelImage_Personel">
-          <End Type="PersonelDBModel.Personel" Role="Personel" Multiplicity="0..1" />
-          <End Type="PersonelDBModel.PersonelImage" Role="PersonelImage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personel">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PersonelImage">
-              <PropertyRef Name="PersonelID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -212,6 +162,7 @@
           <EntitySetMapping Name="Personel">
             <EntityTypeMapping TypeName="PersonelDBModel.Personel">
               <MappingFragment StoreEntitySet="Personel">
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="Married" ColumnName="Married" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
@@ -219,15 +170,6 @@
                 <ScalarProperty Name="SurName" ColumnName="SurName" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DepartmanId" ColumnName="DepartmanId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PersonelImage">
-            <EntityTypeMapping TypeName="PersonelDBModel.PersonelImage">
-              <MappingFragment StoreEntitySet="PersonelImage">
-                <ScalarProperty Name="PersonelImage1" ColumnName="PersonelImage" />
-                <ScalarProperty Name="PersonelID" ColumnName="PersonelID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
