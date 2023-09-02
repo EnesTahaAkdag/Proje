@@ -19,12 +19,13 @@ namespace Proje.Controllers
     public class PersonelController : Controller
     {
         PersonelDBEntities db = new PersonelDBEntities();
-        // GET: Personel
+        
         public ActionResult Index()
         {
             var model = db.Personel.ToList();
             return View(model);
         }
+        
         [Authorize(Roles = "Admin")]
         public ActionResult Yeni()
         {
@@ -34,7 +35,7 @@ namespace Proje.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Yeni(PersonelAddViewModel model, HttpPostedFileBase file)
+        public ActionResult Yeni(PersonelAddViewModel model, HttpPostedFileBase file,Personel p)
         {
             if (!ModelState.IsValid)
             {
@@ -43,14 +44,15 @@ namespace Proje.Controllers
                 return View("PersonelForm", model);
             }
 
-            // Eğer dosya yükleme işlemi yapılacaksa:
-            if (file != null && file.ContentLength > 0)
+            if (Request.Files.Count>0)
             {
-                var uploadDir = "~/Images/PersonelResimleri";
-                var imagePath = Path.Combine(Server.MapPath(uploadDir), Path.GetFileName(file.FileName));
-                file.SaveAs(imagePath);
-                model.FileName = Path.Combine(uploadDir, file.FileName);
+                string dosyaAdi = Path.GetFileName(Request.Files[0].FileName);
+                string uzanti = Path.GetExtension(Request.Files[0].FileName);
+                string yol = "~/Image/" + dosyaAdi + uzanti;
+                Request.Files[0].SaveAs(Server.MapPath(yol));
+                model.FileName="~/Image/"+dosyaAdi+uzanti;
             }
+
 
             var personel = new Personel()
             {
@@ -63,50 +65,47 @@ namespace Proje.Controllers
                 Married = model.Married,
                 FileName = model.FileName,
             };
-
+            db.Personel.Add(p);
             db.Personel.Add(personel);
             db.SaveChanges();
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
         public ActionResult Guncelle(int id)
         {
-            var model = new PersonelViewModel();
+            var model = new PersonelEditViewModel();
+            var personel = db.Personel.FirstOrDefault(x => x.Id==id);
             ViewBag.Departmanlar = db.Departman.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList(); ;
-
-            return View("PersonelForm", model);
+            return View("PersonelGuncelle", model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult guncelle(PersonelEditViewModel model, HttpPostedFileBase file)
+        public ActionResult Guncelle(PersonelEditViewModel model, HttpPostedFileBase file)
         {
             if (!ModelState.IsValid)
+        
             {
                 return View("PersonelForm", model);
             }
-            var personelToUpdate = db.Personel.Find(model.Id);
-            if (personelToUpdate == null)
+            var PersonelGuncelle = db.Personel.Find(model.Id);
+            if (PersonelGuncelle == null)
             {
                 return HttpNotFound();
             }
-            personelToUpdate.Name = model.Name;
-            personelToUpdate.SurName = model.SurName;
-            personelToUpdate.DepartmanId = model.DepartmanId;
-            personelToUpdate.Wage = model.Wage;
-            personelToUpdate.BirthDate = model.BirthDate;
-            personelToUpdate.Gender = model.Gender;
-            personelToUpdate.Married = model.Married;
-            if (file != null && file.ContentLength > 0)
-            {
-                var uploadDir = "~/Images/PersonelResimleri";
-                var imagePath = Path.Combine(Server.MapPath(uploadDir), Path.GetFileName(file.FileName));
-                file.SaveAs(imagePath);
-                personelToUpdate.FileName = Path.Combine(uploadDir, file.FileName);
-            }
-            db.Entry(personelToUpdate).State = EntityState.Modified;
+            PersonelGuncelle.Name = model.Name;
+            PersonelGuncelle.SurName = model.SurName;
+            PersonelGuncelle.DepartmanId = model.DepartmanId;
+            PersonelGuncelle.Wage = model.Wage;
+            PersonelGuncelle.BirthDate = model.BirthDate;
+            PersonelGuncelle.Gender = model.Gender;
+            PersonelGuncelle.Married = model.Married;
+            db.Entry(PersonelGuncelle).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public ActionResult Sil(int personelId)
         {

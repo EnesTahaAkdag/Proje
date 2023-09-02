@@ -1,7 +1,70 @@
 ﻿@model Proje.ViewModels.PersonelEditViewModel
 @{
-    ViewBag.Title = "PersonelGuncelle";
+    ViewBag.Title = "PersonelForm";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var departmans = ViewBag.Departmanlar as List<SelectListItem>;
 }
-@Html.ActionLink
+<div id="mesaj">
+
+</div>
+<h2>Personel Formu</h2>
+@using (Html.BeginForm("Güncelle", "Personel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label>İsim Giriniz</label>
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    <div class="form-group">
+        <label>Soyad Giriniz</label>
+        @Html.TextBoxFor(m => m.SurName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SurName)
+    </div>
+    <div class="form-group">
+        <label>Departmanı Seçiniz</label>
+        @Html.DropDownListFor(m => m.DepartmanId, departmans, "Departman Seçiniz", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.DepartmanId)
+    </div>
+    <div class="form-group">
+        <label>Maaş Giriniz</label>
+        @Html.TextBoxFor(m => m.Wage, new { @class = "form-control", @maxlength = "20" })
+        @Html.ValidationMessageFor(m => m.Wage)
+    </div>
+    <div class="form-group">
+        <label>Doğum Tarihi Giriniz</label>
+        @Html.TextBoxFor(m => m.BirthDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = "1900-01-01", max = DateTime.Now.ToString("yyyy-MM-dd") })
+        @Html.ValidationMessageFor(m => m.BirthDate)
+    </div>
+    <div>
+        <label>Cinsiyetiniz Seçiniz</label>
+    </div>
+    <div class="radio">
+        <label>
+            @Html.RadioButtonFor(m => m.Gender, true) Erkek
+        </label>
+        <label>
+            @Html.RadioButtonFor(m => m.Gender, false) Kadın
+        </label>
+        @Html.ValidationMessageFor(m => m.Gender)
+    </div>
+    <div>
+        <label>Evliyseniz Seçiniz</label>
+    </div>
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m => m.Married) Evliyseniz Seçiniz
+        </label>
+    </div>
+    <div>
+
+    </div>
+    <div class="form-group">
+        <label>Resim Eklemek İçin Butona Tıklayınız</label>
+        <input type="file" name="ImageFile" id="ImageFile" />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-default">Kaydet</button>
+    @ViewBag.Message
+}
 

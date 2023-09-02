@@ -53,7 +53,7 @@ $(function () {
                                     cache: false,
                                     data: { departmanId: departmanId, type: "removeDptemptyPersonel" },
                                     success: function () {
-                                        btn.parent().parent().remove();
+                                        btn.parent().parent().fadeOut(400);
                                     }
                                 });
                             }
