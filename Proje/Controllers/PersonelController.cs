@@ -48,9 +48,9 @@ namespace Proje.Controllers
             {
                 string dosyaAdi = Path.GetFileName(Request.Files[0].FileName);
                 string uzanti = Path.GetExtension(Request.Files[0].FileName);
-                string yol = "~/Image/" + dosyaAdi + uzanti;
+                string yol = "~/Images/" + dosyaAdi + uzanti;
                 Request.Files[0].SaveAs(Server.MapPath(yol));
-                model.FileName="~/Image/"+dosyaAdi+uzanti;
+                model.FileName="~/Images/"+dosyaAdi+uzanti;
             }
 
 
@@ -65,7 +65,6 @@ namespace Proje.Controllers
                 Married = model.Married,
                 FileName = model.FileName,
             };
-            db.Personel.Add(p);
             db.Personel.Add(personel);
             db.SaveChanges();
 
@@ -82,13 +81,14 @@ namespace Proje.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Guncelle(PersonelEditViewModel model, HttpPostedFileBase file)
+        public ActionResult Guncelle(PersonelEditViewModel model, HttpPostedFileBase file,Personel personel)
         {
             if (!ModelState.IsValid)
         
             {
                 return View("PersonelForm", model);
             }
+
             var PersonelGuncelle = db.Personel.Find(model.Id);
             if (PersonelGuncelle == null)
             {
@@ -101,6 +101,7 @@ namespace Proje.Controllers
             PersonelGuncelle.BirthDate = model.BirthDate;
             PersonelGuncelle.Gender = model.Gender;
             PersonelGuncelle.Married = model.Married;
+            PersonelGuncelle.FileName= model.FileName;
             db.Entry(PersonelGuncelle).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
