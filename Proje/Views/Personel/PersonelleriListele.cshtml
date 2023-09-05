@@ -1,24 +1,30 @@
 ﻿@model  IEnumerable<Proje.Models.EntitiyFramework.Personel>
 <h1>Personellerin Listesi</h1>
-<table class="table table-bordered">
+<table class="table table-bordered" id="tblPersoneller">
     <thead>
         <tr>
-            <th>Personel Resimi</th>
+            <th>Personel Resmi</th>
             <th>Ad</th>
-            <th>SoyAd</th>
-            <th>Doğum Tarihi</th>
+            <th>Soyad</th>
             <th>Maaş</th>
+            <th>Yaş</th>
+            <th>Doğum Tarihi</th>
+            <th>Cinsiyet</th>
+            <th>Evlilik Durumu</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var personel in Model)
         {
-            <tr>
-                <td><img src="@Url.Action("GetImage", "Employee", new { id = personel.Id })" alt="@personel." /></td>
+            <tr style="text-align:center">
+                <td><img src="@Url.Content(personel.FileName)" alt="Personel Resmi" height="100" width="100" /></td>
                 <td>@personel.Name</td>
                 <td>@personel.SurName</td>
-                <td>@personel.BirthDate.Value.ToShortDateString()</td>
-                <td>@personel.Wage.Value.ToString("0,0.00") TL</td>
+                <td>@personel.Wage.Value.ToString("0,0.00")</td>
+                <td>@(DateTime.Now.Year - personel.BirthDate.Value.Year)   </td>
+                <td>@personel.BirthDate.Value.ToString("dd-MM-yyyy")</td>
+                <td>@(personel.Gender == true ?"Erkek":"Kadın")</td>
+                <td>@(personel.Married==true?"Evli":"Bekar")</td>
             </tr>
         }
     </tbody>
