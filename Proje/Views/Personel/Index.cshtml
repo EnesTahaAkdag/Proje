@@ -3,6 +3,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    img.yuvarlak{ border-radius: 50%; }
+</style>
 @Html.ActionLink("Yeni Personel", "Yeni", null, new { @class = "btn btn-success" })
 <br>
 <br>
@@ -28,7 +31,7 @@
         @foreach (var personel in Model)
         {
             <tr style="text-align:center">
-                <td><img src="@Url.Content(personel.FileName)" alt="Personel Resmi" height="100" width="100" /></td>
+                <td><img src="@Url.Content(personel.FileName)" alt="Personel Resmi" class="yuvarlak" height="100" width="100"/></td>
                 <td>@personel.Name</td>
                 <td>@personel.SurName</td>
                 @if (personel.Departman == null)

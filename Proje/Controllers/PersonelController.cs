@@ -34,57 +34,48 @@ namespace Proje.Controllers
             return View("PersonelForm", model);
         }
         [HttpPost]
-[ValidateAntiForgeryToken]
-public ActionResult Yeni(PersonelAddViewModel model, HttpPostedFileBase file)
-{
-    if (!ModelState.IsValid)
-    {
-        ViewBag.Departmanlar = db.Departman.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
-        return View("PersonelForm", model);
-    }
+        [ValidateAntiForgeryToken]
+        public ActionResult Yeni(PersonelAddViewModel model, HttpPostedFileBase file)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Departmanlar = db.Departman.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
+                return View("PersonelForm", model);
+            }
 
-    if (Request.Files.Count > 0)
-    {
-        string dosyaAdi = Path.GetFileName(Request.Files[0].FileName);
-        string uzanti = Path.GetExtension(Request.Files[0].FileName);
-        string yol = "~/Images/" + dosyaAdi + uzanti;
-        Request.Files[0].SaveAs(Server.MapPath(yol));
-        model.FileName = "~/Images/" + dosyaAdi + uzanti;
-    }
+            if (Request.Files.Count > 0)
+            {
+                string dosyaAdi = Path.GetFileName(Request.Files[0].FileName);
+                string uzanti = Path.GetExtension(Request.Files[0].FileName);
+                string yol = "~/Images/" + dosyaAdi + uzanti;
+                Request.Files[0].SaveAs(Server.MapPath(yol));
+                model.FileName = "~/Images/" + dosyaAdi + uzanti;
+            }
 
-    // Veritabanında aynı isimde bir resmin olup olmadığını kontrol et
-    var existingImage = db.Personel.FirstOrDefault(p => p.FileName == model.FileName);
+            var existingImage = db.Personel.FirstOrDefault(p => p.FileName == model.FileName);
 
-    if (existingImage != null)
-    {
-        ModelState.AddModelError("FileName", "Bu isimde bir resim zaten mevcut.");
-        ViewBag.Departmanlar = db.Departman.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
-        return View("PersonelForm", model);
-    }
+            var personel = new Personel()
+            {
+                DepartmanId = model.DepartmanId,
+                Name = model.Name,
+                SurName = model.SurName,
+                Wage = model.Wage,
+                BirthDate = model.BirthDate,
+                Gender = model.Gender,
+                Married = model.Married,
+                FileName = model.FileName,
+            };
+            db.Personel.Add(personel);
+            db.SaveChanges();
 
-    var personel = new Personel()
-    {
-        DepartmanId = model.DepartmanId,
-        Name = model.Name,
-        SurName = model.SurName,
-        Wage = model.Wage,
-        BirthDate = model.BirthDate,
-        Gender = model.Gender,
-        Married = model.Married,
-        FileName = model.FileName,
-    };
-    db.Personel.Add(personel);
-    db.SaveChanges();
-
-    return RedirectToAction("Index");
-}
-
+            return RedirectToAction("Index");
+        }
 
         [HttpGet]
         public ActionResult Guncelle(int id)
         {
             var model = new PersonelEditViewModel();
-            var personel = db.Personel.FirstOrDefault(x => x.Id == id);
+            var personelverileri = db.Personel.FirstOrDefault(p => p.Id == id);
             ViewBag.Departmanlar = db.Departman.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList(); ;
             return View("PersonelGuncelle", model);
         }
