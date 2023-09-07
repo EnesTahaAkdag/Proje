@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Proje.Models.EntitiyFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace Proje.ViewModels
 
         public bool Married { get; set; }
         public string FileName { get; set; }
+        public IEnumerable<Departman>Departmanlar{ get; set; }
     }
 
     public class PersonelAddViewModel : PersonelViewModel

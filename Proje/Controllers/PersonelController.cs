@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.Remoting.Contexts;
 using Microsoft.Ajax.Utilities;
+using System.Data.Entity.Core.Metadata.Edm;
 
 namespace Proje.Controllers
 {
@@ -70,14 +71,26 @@ namespace Proje.Controllers
 
             return RedirectToAction("Index");
         }
-
-        [HttpGet]
         public ActionResult Guncelle(int id)
         {
-            var model = new PersonelEditViewModel();
-            var personelverileri = db.Personel.FirstOrDefault(p => p.Id == id);
+            var model = db.Personel.FirstOrDefault(x => x.Id == id);
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
             ViewBag.Departmanlar = db.Departman.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList(); ;
-            return View("PersonelGuncelle", model);
+            var editModel = new PersonelEditViewModel
+            {
+                DepartmanId = model.DepartmanId,
+                Name = model.Name,
+                SurName = model.SurName,
+                Wage = (decimal)model.Wage,
+                BirthDate = (DateTime)model.BirthDate,
+                Gender = (bool)model.Gender,
+                Married = model.Married,
+                FileName = model.FileName,
+            };
+            return View("PersonelGuncelle", editModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
