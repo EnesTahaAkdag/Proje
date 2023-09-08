@@ -78,7 +78,7 @@ namespace Proje.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Departmanlar = db.Departman.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList(); ;
+            ViewBag.Departmanlar = db.Departman.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList(); 
             var editModel = new PersonelEditViewModel
             {
                 DepartmanId = model.DepartmanId,
@@ -96,13 +96,6 @@ namespace Proje.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Guncelle(PersonelEditViewModel model, HttpPostedFileBase file, Personel personel)
         {
-            if (!ModelState.IsValid)
-            {
-                return View("PersonelForm", model);
-            }
-
-            var PersonelGuncelle = db.Personel.Find(model.Id);
-
             if (Request.Files.Count == 1 && Request.Files[0] != null)
             {
                 var uploadedFile = Request.Files[0];
@@ -112,6 +105,14 @@ namespace Proje.Controllers
                 uploadedFile.SaveAs(Server.MapPath(yol));
                 model.FileName = "~/Images/" + dosyaAdi + uzanti;
             }
+            if (!ModelState.IsValid)
+            {
+                return View("PersonelGuncelle", model);
+            }
+
+            var PersonelGuncelle = db.Personel.Find(model.Id);
+
+          
 
             if (PersonelGuncelle == null)
             {

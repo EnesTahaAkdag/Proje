@@ -31,8 +31,9 @@ namespace Proje.ViewModels
 
 
         public bool Married { get; set; }
+
+        [Required(ErrorMessage ="Lütfen Personel Resmi Ekleyiniz")]
         public string FileName { get; set; }
-        public IEnumerable<Departman>Departmanlar{ get; set; }
     }
 
     public class PersonelAddViewModel : PersonelViewModel
