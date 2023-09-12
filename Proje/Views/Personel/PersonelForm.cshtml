@@ -56,15 +56,41 @@
             @Html.CheckBoxFor(m => m.Married) Evliyseniz Seçiniz
         </label>
     </div>
-    <div>
-        
-    </div>
+
     <div class="form-group">
-        <label>Resim Eklemek İçin Butona Tıklayınız</label>
-        <input type="file" name="PersonelGorsel" id="ImageFile" />
+        <div class="col-md-3 col-lg-3">
+            <input type="file" name="PersonelGorsel" id="ImageFile" accept="image/*" required style="flex: 1; display: none;" />
+            <img alt="" id="imagePreview" class="yuvarlak" style="height:150px;width:150px; object-fit:contain; flex: 1;" />
+        </div>
+        <div class="col-md-9 col-lg-9 pull-left">
+            <button class="btn btn-primary btn-sm pull-left" onclick="document.getElementById('ImageFile').click()">Resim Seç</button>
+        </div>
+        <div class="col-md-9 col-lg-9 pull-left">
+
+        </div>
     </div>
-    <br />
-    <button type="submit" class="btn btn-default">Kaydet</button>
+    <script>
+        document.getElementById('ImageFile').addEventListener('change', function (e) {
+            var fileInput = e.target;
+            var imagePreview = document.getElementById('imagePreview');
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                };
+
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                imagePreview.src = '#';
+            }
+        });
+    </script>
+    <br>
+    <div class="clearfix"></div>
+    <br>
+    <div class="col-lg-4 col-sm-4 col-md-4 pull-right">
+        <button type="submit" class="btn btn-success pull-right">Kaydet</button>
+    </div>
     @ViewBag.Message
 }
 

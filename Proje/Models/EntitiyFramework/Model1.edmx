@@ -33,7 +33,7 @@
           <Property Name="BirthDate" Type="datetime" />
           <Property Name="Gender" Type="bit" />
           <Property Name="Married" Type="bit" Nullable="false" />
-          <Property Name="FileName" Type="nvarchar" MaxLength="50" />
+          <Property Name="FileName" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -74,8 +74,8 @@
         <EntityContainer Name="PersonelDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Departman" EntityType="PersonelDBModel.Departman" />
           <EntitySet Name="Kullanici" EntityType="PersonelDBModel.Kullanici" />
-          <EntitySet Name="Personel" EntityType="PersonelDBModel.Personel" />
           <EntitySet Name="sysdiagrams" EntityType="PersonelDBModel.sysdiagrams" />
+          <EntitySet Name="Personel" EntityType="PersonelDBModel.Personel" />
           <AssociationSet Name="FK_Personel_Departman" Association="PersonelDBModel.FK_Personel_Departman">
             <End Role="Departman" EntitySet="Departman" />
             <End Role="Personel" EntitySet="Personel" />
@@ -98,6 +98,16 @@
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Role" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="Personel">
           <Key>
             <PropertyRef Name="Id" />
@@ -110,18 +120,8 @@
           <Property Name="BirthDate" Type="DateTime" Precision="3" />
           <Property Name="Gender" Type="Boolean" />
           <Property Name="Married" Type="Boolean" Nullable="false" />
-          <Property Name="FileName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Departman" Relationship="PersonelDBModel.FK_Personel_Departman" FromRole="Personel" ToRole="Departman" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK_Personel_Departman">
           <End Type="PersonelDBModel.Departman" Role="Departman" Multiplicity="0..1" />
@@ -159,6 +159,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="PersonelDBModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Personel">
             <EntityTypeMapping TypeName="PersonelDBModel.Personel">
               <MappingFragment StoreEntitySet="Personel">
@@ -171,17 +182,6 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DepartmanId" ColumnName="DepartmanId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="PersonelDBModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

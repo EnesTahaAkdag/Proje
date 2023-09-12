@@ -57,11 +57,30 @@
             @Html.CheckBoxFor(m => m.Married) Evliyseniz Seçiniz
         </label>
     </div>
-    
     <div class="form-group">
-        <label>Resim Eklemek İçin Butona Tıklayınız</label>
-        <input type="file" name="PersonelGorsel" id="ImageFile" />
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <input type="file" name="PersonelGorsel" id="ImageFile" accept="image/*" style="flex: 1; display: none;" required />
+            <img src="@Url.Content(Model.FileName)" alt="@Model.FileName" id="imagePreview" class="yuvarlak" style="height:150px;width:150px; object-fit:contain; flex: 1;" />
+            <button style="flex: 1; background-color: #007bff; color: #fff; border: none; cursor: pointer;" onclick="document.getElementById('ImageFile').click()">Resim Seç</button>
+        </div>
+        
     </div>
+    <script>
+        document.getElementById('ImageFile').addEventListener('change', function (e) {
+            var fileInput = e.target;
+            var imagePreview = document.getElementById('imagePreview');
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                };
+
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                imagePreview.src = '#';
+            }
+        });
+    </script>
     <br />
     <button type="submit" class="btn btn-success">Kaydet</button>
     @ViewBag.Message

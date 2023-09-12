@@ -32,7 +32,7 @@ namespace Proje.ViewModels
 
         public bool Married { get; set; }
 
-        [Required(ErrorMessage ="Lütfen Personel Resmi Ekleyiniz")]
+        //[Required(ErrorMessage ="Lütfen Personel Resmi Ekleyiniz")]
         public string FileName { get; set; }
     }
 
