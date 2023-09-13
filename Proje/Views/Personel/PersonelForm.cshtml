@@ -1,96 +1,107 @@
 ﻿@model Proje.ViewModels.PersonelAddViewModel
 @{
-    ViewBag.Title = "PersonelForm";
+    ViewBag.Title = "Personel Formu";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var departmans = ViewBag.Departmanlar as List<SelectListItem>;
 }
-<div id="mesaj">
 
-</div>
 <h2>Personel Formu</h2>
+
 @using (Html.BeginForm("Yeni", "Personel", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+
     <div class="form-group">
-        <label>İsim Giriniz</label>
-        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        <label for="Name">İsim</label>
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", id = "Name" })
         @Html.ValidationMessageFor(m => m.Name)
     </div>
+
     <div class="form-group">
-        <label>Soyad Giriniz</label>
-        @Html.TextBoxFor(m => m.SurName, new { @class = "form-control" })
+        <label for="SurName">Soyad</label>
+        @Html.TextBoxFor(m => m.SurName, new { @class = "form-control", id = "SurName" })
         @Html.ValidationMessageFor(m => m.SurName)
     </div>
+
     <div class="form-group">
-        <label>Departmanı Seçiniz</label>
-        @Html.DropDownListFor(m => m.DepartmanId, departmans, "Departman Seçiniz", new { @class = "form-control" })
+        <label for="DepartmanId">Departman</label>
+        @Html.DropDownListFor(m => m.DepartmanId, departmans, "Departman Seçiniz", new { @class = "form-control", id = "DepartmanId" })
         @Html.ValidationMessageFor(m => m.DepartmanId)
     </div>
+
     <div class="form-group">
-        <label>Maaş Giriniz <span class="font-size:200px" style="color:red; font-size:13px">&ensp; (En Fazla 20 Karakter Giriniz)</span></label>
-        @Html.TextBoxFor(m => m.Wage, new { @class = "form-control", @maxlength = "20" })
+        <label for="Wage">Maaş <span style="color:red; font-size:13px"> (En fazla 20 karakter)</span></label>
+        @Html.TextBoxFor(m => m.Wage, new { @class = "form-control", @maxlength = "20", id = "Wage" })
         @Html.ValidationMessageFor(m => m.Wage)
     </div>
+
     <div class="form-group">
-        <label>Doğum Tarihi Giriniz</label>
-        @Html.TextBoxFor(m => m.BirthDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = "1900-01-01", max = DateTime.Now.ToString("yyyy-MM-dd") })
+        <label for="BirthDate">Doğum Tarihi</label>
+        @Html.TextBoxFor(m => m.BirthDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = "1900-01-01", max = DateTime.Now.ToString("yyyy-MM-dd"), id = "BirthDate" })
         @Html.ValidationMessageFor(m => m.BirthDate)
     </div>
-    <div>
-        <label>Cinsiyetiniz Seçiniz</label>
-    </div>
-    <div class="radio">
-        <label>
-            @Html.RadioButtonFor(m => m.Gender, true) Erkek
-        </label>
-        <label>
-            @Html.RadioButtonFor(m => m.Gender, false) Kadın
-        </label>
+
+    <div class="form-group">
+        <label>Cinsiyet</label>
+        <div class="radio">
+            <label>
+                @Html.RadioButtonFor(m => m.Gender, true) Erkek
+            </label>
+            <label>
+                @Html.RadioButtonFor(m => m.Gender, false) Kadın
+            </label>
+        </div>
         @Html.ValidationMessageFor(m => m.Gender)
-    </div>
-    <div>
-        <label>Evliyseniz Seçiniz</label>
-    </div>
-    <div class="checkbox">
-        <label>
-            @Html.CheckBoxFor(m => m.Married) Evliyseniz Seçiniz
-        </label>
     </div>
 
     <div class="form-group">
-        <div class="col-md-3 col-lg-3">
-            <input type="file" name="PersonelGorsel" id="ImageFile" accept="image/*" required style="flex: 1; display: none;" />
-            <img alt="" id="imagePreview" class="yuvarlak" style="height:150px;width:150px; object-fit:contain; flex: 1;" />
-        </div>
-        <div class="col-md-9 col-lg-9 pull-left">
-            <button class="btn btn-primary btn-sm pull-left" onclick="document.getElementById('ImageFile').click()">Resim Seç</button>
-        </div>
-        <div class="col-md-9 col-lg-9 pull-left">
-
+        <label for="Married">Evli Misiniz?</label>
+        <div class="checkbox">
+            <label>
+                @Html.CheckBoxFor(m => m.Married, new { id = "Married" }) Evliyseniz seçiniz
+            </label>
         </div>
     </div>
-    <script>
-        document.getElementById('ImageFile').addEventListener('change', function (e) {
-            var fileInput = e.target;
-            var imagePreview = document.getElementById('imagePreview');
-            if (fileInput.files && fileInput.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    imagePreview.src = e.target.result;
-                };
 
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                imagePreview.src = '#';
-            }
-        });
-    </script>
-    <br>
+    <div class="form-group">
+        <label for="PersonelGorsel">Resim Seçiniz</label>
+        <div>
+            <input type="file" name="PersonelGorsel" id="ImageFile" accept="image/*" style="flex: 1; display: none;" required />
+            <img alt="" id="imagePreview" class="yuvarlak" style="height:150px;width:150px; object-fit:contain; flex: 1;" />
+        </div>
+    </div>
+
+    <button class="btn btn-primary btn-sm" type="button" id="selectImage">Resim Seç</button>
+
+    <br />
+
     <div class="clearfix"></div>
-    <br>
+
     <div class="col-lg-4 col-sm-4 col-md-4 pull-right">
         <button type="submit" class="btn btn-success pull-right">Kaydet</button>
     </div>
+
+    <div id="mesaj"></div>
+
     @ViewBag.Message
 }
 
+<script>
+    document.getElementById('selectImage').addEventListener('click', function (e) {
+        document.getElementById('ImageFile').click();
+    });
+
+    document.getElementById('ImageFile').addEventListener('change', function (e) {
+        var fileInput = e.target;
+        var imagePreview = document.getElementById('imagePreview');
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            imagePreview.src = '#';
+        }
+    });
+</script>

@@ -58,32 +58,48 @@
         </label>
     </div>
     <div class="form-group">
-        <div style="display: flex; align-items: center; justify-content: space-between;">
+        <label for="PersonelGorsel">Resim Seçiniz</label>
+        <div>
             <input type="file" name="PersonelGorsel" id="ImageFile" accept="image/*" style="flex: 1; display: none;" required />
-            <img src="@Url.Content(Model.FileName)" alt="@Model.FileName" id="imagePreview" class="yuvarlak" style="height:150px;width:150px; object-fit:contain; flex: 1;" />
-            <button style="flex: 1; background-color: #007bff; color: #fff; border: none; cursor: pointer;" onclick="document.getElementById('ImageFile').click()">Resim Seç</button>
+            <img src="@Url.Content(Model.FileName)" alt="@Model.FileName" id="imagePreview" class="yuvarlak" style="height:150px;width:150px; object-fit:contain; flex: 1;" /><br>
+            <p style="font-size: 14px; color: red">Tekrar resminizi seçin.</p>
         </div>
-        
     </div>
-    <script>
-        document.getElementById('ImageFile').addEventListener('change', function (e) {
-            var fileInput = e.target;
-            var imagePreview = document.getElementById('imagePreview');
-            if (fileInput.files && fileInput.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    imagePreview.src = e.target.result;
-                };
 
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                imagePreview.src = '#';
-            }
-        });
-    </script>
+
+    <button class="btn btn-primary btn-sm" type="button" id="selectImage">Resim Seç</button>
+
     <br />
-    <button type="submit" class="btn btn-success">Kaydet</button>
+
+    <div class="clearfix"></div>
+
+    <div class="col-lg-4 col-sm-4 col-md-4 pull-right">
+        <button type="submit" class="btn btn-success pull-right">Kaydet</button>
+    </div>
+
+    <div id="mesaj"></div>
+
     @ViewBag.Message
 }
+
+<script>
+    document.getElementById('selectImage').addEventListener('click', function (e) {
+        document.getElementById('ImageFile').click();
+    });
+
+    document.getElementById('ImageFile').addEventListener('change', function (e) {
+        var fileInput = e.target;
+        var imagePreview = document.getElementById('imagePreview');
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            imagePreview.src = '#';
+        }
+    });
+</script>
 
 

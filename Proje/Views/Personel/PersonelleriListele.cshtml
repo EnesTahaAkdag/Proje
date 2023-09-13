@@ -17,14 +17,14 @@
         @foreach (var personel in Model)
         {
             <tr style="text-align:center">
-                <td><img src="@Url.Content(personel.FileName)" alt="Personel Resmi" height="100" width="100" /></td>
-                <td>@personel.Name</td>
-                <td>@personel.SurName</td>
-                <td>@personel.Wage.Value.ToString("0,0.00")</td>
-                <td>@(DateTime.Now.Year - personel.BirthDate.Value.Year)   </td>
-                <td>@personel.BirthDate.Value.ToString("dd-MM-yyyy")</td>
-                <td>@(personel.Gender == true ?"Erkek":"Kadın")</td>
-                <td>@(personel.Married==true?"Evli":"Bekar")</td>
+                <td height="100" width="150"><img src="@Url.Content(personel.FileName)" alt="@personel.FileName" style="height:100px; width:100px; object-fit:contain;" /></td>
+                <td style="vertical-align:middle;">@personel.Name</td>
+                <td style="vertical-align:middle;">@personel.SurName</td>
+                <td style="vertical-align:middle;">@personel.Wage.Value.ToString("0,0.00")</td>
+                <td style="vertical-align:middle;">@(DateTime.Now.Year - personel.BirthDate.Value.Year)</td>
+                <td style="vertical-align:middle;">@personel.BirthDate.Value.ToString("dd-MM-yyyy")</td>
+                <td style="vertical-align:middle;">@(personel.Gender == true ? "Erkek" : "Kadın")</td>
+                <td style="vertical-align:middle;">@(personel.Married == true ? "Evli" : "Bekar")</td>
             </tr>
         }
     </tbody>
