@@ -24,25 +24,19 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td style="vertical-align:middle">
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
+            <td style="vertical-align:middle">
                 @Html.DisplayFor(modelItem => item.Password)
             </td>
-            <td>
+            <td style="vertical-align:middle">
                 @Html.DisplayFor(modelItem => item.Role)
             </td>
             <td>
-                @if (User.Identity.IsAuthenticated && User.Identity.GetUserId() == item.Id)
-                {
-                    @Html.ActionLink("Güncelle", "Edit", new { id = item.Id })<br>
-                }
+                @Html.ActionLink("Güncelle", "Edit", new { id = item.Id })<br>
                 @Html.ActionLink("Detaylar", "Details", new { id = item.Id })<br>
-                @if (item.Role != "Admin")
-                {
-                    @Html.ActionLink("Sil", "Delete", new { id = item.Id })
-                }
+                @if (item.Role != "Admin"){@Html.ActionLink("Sil", "Delete", new { id = item.Id })}
             </td>
         </tr>
     }
