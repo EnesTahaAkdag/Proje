@@ -96,6 +96,7 @@ namespace Proje.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Guncelle(PersonelEditViewModel model, HttpPostedFileBase file, Personel personel)
         {
+            //Resim Eklendimi Kontrol eder
             if (Request.Files.Count == 1 && Request.Files[0] != null)
             {
                 var uploadedFile = Request.Files[0];

@@ -33,14 +33,15 @@ namespace Proje.Controllers
         public ActionResult Kaydet(Departman departman)
         {
             if (!ModelState.IsValid)
-            { }
-            
+            {
+                return View("DepartmanForm", departman);
+            }
 
             var departmanAdiVarmi = db.Departman.FirstOrDefault(d => d.Name == departman.Name);
             if (departmanAdiVarmi != null)
-            { 
-            ModelState.AddModelError("Name", "Bu isimde bir departman zaten mevcut.");
-            return View("DepartmanForm",departman);
+            {
+                ModelState.AddModelError("Name", "Bu isimde bir departman zaten mevcut.");
+                return View("DepartmanForm", departman);
             }
 
             if (departman.Id == 0)
@@ -56,7 +57,6 @@ namespace Proje.Controllers
                 }
                 guncellenecekDepartman.Name = departman.Name;
             }
-
             db.SaveChanges();
 
             MesajVievModelController model = new MesajVievModelController();
