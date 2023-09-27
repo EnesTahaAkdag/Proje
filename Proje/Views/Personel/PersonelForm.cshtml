@@ -31,7 +31,7 @@
 
     <div class="form-group">
         <label for="Wage">Maaş <span style="color:red; font-size:13px"> (En fazla 20 karakter)</span></label>
-        @Html.TextBoxFor(m => m.Wage, new { @class = "form-control", @maxlength = "20", id = "Wage" })
+        @Html.TextBoxFor(m => m.Wage, new { @class = "form-control", @maxlength = "18", id = "Wage" })
         @Html.ValidationMessageFor(m => m.Wage)
     </div>
 
