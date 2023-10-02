@@ -36,20 +36,20 @@ namespace Proje.Controllers
             {
                 return View("DepartmanForm", departman);
             }
-
+            //Departman ismini kontrol eder ve aynı departman ismi zaten kayıtlıysa hata verir
             var departmanAdiVarmi = db.Departman.FirstOrDefault(d => d.Name == departman.Name);
             if (departmanAdiVarmi != null)
             {
                 ModelState.AddModelError("Name", "Bu isimde bir departman zaten mevcut.");
                 return View("DepartmanForm", departman);
             }
-
+            //Departman id kontrol eder ve 0 a eşitse departmanı kaydeder
             if (departman.Id == 0)
             {
                 db.Departman.Add(departman);
             }
             else
-            {
+            {//Departman id kontrol ettikten sonra 0 a eşit değilse hata verir
                 var guncellenecekDepartman = db.Departman.Find(departman.Id);
                 if (guncellenecekDepartman == null)
                 {
