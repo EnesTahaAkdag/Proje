@@ -30,6 +30,7 @@ namespace Proje.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Yeni()
         {
+            //yeni eklenecek personel için personel kayıt penceresini açar
             var model = new PersonelAddViewModel();
             ViewBag.Departmanlar = db.Departman.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList(); ;
             return View("PersonelForm", model);
@@ -43,7 +44,7 @@ namespace Proje.Controllers
                 ViewBag.Departmanlar = db.Departman.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
                 return View("PersonelForm", model);
             }
-
+            //personelin resmini kaydeder
             if (Request.Files.Count > 0)
             {
                 string dosyaAdi = Path.GetFileName(Request.Files[0].FileName);
@@ -54,7 +55,7 @@ namespace Proje.Controllers
             }
 
             var existingImage = db.Personel.FirstOrDefault(p => p.FileName == model.FileName);
-
+            //personelin verilerini kaydeder
             var personel = new Personel()
             {
                 DepartmanId = model.DepartmanId,
@@ -79,6 +80,7 @@ namespace Proje.Controllers
                 return HttpNotFound();
             }
             ViewBag.Departmanlar = db.Departman.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList(); 
+            //güncellenecek personelin verilerini alarak ekrana verir
             var editModel = new PersonelEditViewModel
             {
                 DepartmanId = model.DepartmanId,
@@ -119,7 +121,7 @@ namespace Proje.Controllers
             {
                 return HttpNotFound();
             }
-
+            //personelin yeni verilerini kaydeder
             PersonelGuncelle.Name = model.Name;
             PersonelGuncelle.SurName = model.SurName;
             PersonelGuncelle.DepartmanId = model.DepartmanId;
@@ -130,13 +132,12 @@ namespace Proje.Controllers
             PersonelGuncelle.FileName = model.FileName;
 
             db.Entry(PersonelGuncelle).State = EntityState.Modified;
-
             db.SaveChanges();
-
             return RedirectToAction("Index");
         }
         public ActionResult PersonelDetay(int id)
         {
+            //kişinin id sine göre resmi ekrana verir
             var personel = db.Personel.Find(id);
 
             if (personel == null)
@@ -151,6 +152,7 @@ namespace Proje.Controllers
         [HttpPost]
         public ActionResult Sil(int personelId)
         {
+            //personeli silme işlemi yapar
             var silinecekPersonel = db.Personel.Find(personelId);
             if (silinecekPersonel == null)
                 return HttpNotFound();
@@ -160,11 +162,13 @@ namespace Proje.Controllers
         }
         public ActionResult PersonelleriListele(int id)
         {
+            //personeli güncelleme işlemi yapar
             var model = db.Personel.Where(x => x.DepartmanId == id).ToList();
             return PartialView(model);
         }
         public ActionResult ToplamMaas()
         {
+            //personelin maaşını ekranada gösterir
             ViewBag.Maas = db.Personel.Sum(x => x.Wage);
             return PartialView();
         }
