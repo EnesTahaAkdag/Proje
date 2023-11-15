@@ -72,6 +72,7 @@ namespace Proje.Controllers
 
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult Guncelle(int id)
         {
             var model = db.Personel.FirstOrDefault(x => x.Id == id);
@@ -150,6 +151,7 @@ namespace Proje.Controllers
             return RedirectToAction("Index", imagePath);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Sil(int personelId)
         {
             //personeli silme işlemi yapar
