@@ -1,4 +1,4 @@
-﻿@model Proje.ViewModels.PersonelAddViewModel
+﻿@model Proje.ViewModels.PersonelViewModel
 @{
     ViewBag.Title = "Personel Formu";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,28 +9,29 @@
 
 @using (Html.BeginForm("Yeni", "Personel", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+
     @Html.AntiForgeryToken()
 
     <div class="form-group">
         <label for="Name">İsim</label>
-        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", id = "Name" })
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", id = "Name" , @maxlength = "30" })
         @Html.ValidationMessageFor(m => m.Name)
     </div>
 
     <div class="form-group">
         <label for="SurName">Soyad</label>
-        @Html.TextBoxFor(m => m.SurName, new { @class = "form-control", id = "SurName" })
+        @Html.TextBoxFor(m => m.SurName, new { @class = "form-control", id = "SurName" , @maxlength = "30" })
         @Html.ValidationMessageFor(m => m.SurName)
     </div>
 
     <div class="form-group">
         <label for="DepartmanId">Departman</label>
-        @Html.DropDownListFor(m => m.DepartmanId, departmans, "Departman Seçiniz", new { @class = "form-control", id = "DepartmanId" })
+        @Html.DropDownListFor(m => m.DepartmanId, departmans, "Departman Seçiniz", new { @class = "form-control", id = "departmanId" })
         @Html.ValidationMessageFor(m => m.DepartmanId)
     </div>
 
     <div class="form-group">
-        <label for="Wage">Maaş <span style="color:red; font-size:13px"> (En fazla 20 karakter)</span></label>
+        <label for="Wage">Maaş <span style="color:red; font-size:10px"> (En fazla 20 karakter)</span></label>
         @Html.TextBoxFor(m => m.Wage, new { @class = "form-control", @maxlength = "18", id = "Wage" })
         @Html.ValidationMessageFor(m => m.Wage)
     </div>
@@ -66,8 +67,8 @@
     <div class="form-group">
         <label for="PersonelGorsel">Resim Seçiniz</label>
         <div>
-            <input type="file" name="PersonelGorsel" id="ImageFile" accept="image/*" style="flex: 1; display: none;" required />
-            <img alt="" id="imagePreview" class="yuvarlak" style="height:150px;width:150px; object-fit:contain; flex: 1;" />
+            <input type="file" name="uploadFile" id="ImageFile" accept="image/*" style="flex: 1; display: none;" />
+            <img src="~/Content/uploads/@Model.FileName" alt="" id="imagePreview" class="yuvarlak" style="height:150px;width:150px; object-fit:contain; flex: 1;" required />
             <p style="font-size: 14px; color: red">Resminizi seçin.</p>
         </div>
     </div>
@@ -78,15 +79,14 @@
 
     <div class="clearfix"></div>
 
-    <div class="col-lg-4 col-sm-4 col-md-4 pull-right">
+    <center class="col-lg-4 col-sm-4 col-md-4 pull-right">
         <button type="submit" class="btn btn-success pull-right">Kaydet</button>
-    </div>
-
-    <div id="mesaj"></div>
+        <a href="/Personel/Index" class="btn btn-danger" id="iptalButton">İptal</a>
+    </center>
+      <div id="mesaj"></div>
 
     @ViewBag.Message
 }
-
 <script>
     document.getElementById('selectImage').addEventListener('click', function (e) {
         document.getElementById('ImageFile').click();
@@ -105,4 +105,16 @@
             imagePreview.src = '#';
         }
     });
+    function updatePreview() {
+        var input = $("#imageInput")[0];
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $("#previewImage").attr("src", e.target.result).show();
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 </script>

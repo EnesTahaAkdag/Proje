@@ -37,42 +37,58 @@ namespace Proje.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Yeni(PersonelAddViewModel model, HttpPostedFileBase file)
+        public ActionResult Yeni(PersonelAddViewModel Model, HttpPostedFileBase uploadFile)
         {
             if (!ModelState.IsValid)
             {
                 ViewBag.Departmanlar = db.Departman.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
-                return View("PersonelForm", model);
+                return View("PersonelForm", Model);
             }
             //personelin resmini kaydeder
-            if (Request.Files.Count > 0)
+            if (uploadFile != null && uploadFile.ContentLength > 0)
             {
-                string dosyaAdi = Path.GetFileName(Request.Files[0].FileName);
-                string uzanti = Path.GetExtension(Request.Files[0].FileName);
-                string yol = "~/Images/" + dosyaAdi + uzanti;
-                Request.Files[0].SaveAs(Server.MapPath(yol));
-                model.FileName = "~/Images/" + dosyaAdi + uzanti;
+                var tempImageDirectory = Server.MapPath("~/Content/uploads/");
+                var fileName = $"{Guid.NewGuid():N}{Path.GetExtension(uploadFile.FileName)}";
+                var pathImage = Path.Combine(tempImageDirectory, fileName);
+
+                // Eğer yeni dosya yüklendi ise, eski dosyayı silerek yeni dosyayı kaydet
+                if (!Directory.Exists(tempImageDirectory))
+                    Directory.CreateDirectory(tempImageDirectory);
+
+                uploadFile.SaveAs(pathImage);
+
+                // Eski dosyayı sil
+                if (!string.IsNullOrEmpty(Model.FileName))
+                {
+                    var oldFilePath = Path.Combine(tempImageDirectory, Model.FileName);
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        System.IO.File.Delete(oldFilePath);
+                    }
+                }
+
+                Model.FileName = fileName;
             }
 
-            var existingImage = db.Personel.FirstOrDefault(p => p.FileName == model.FileName);
+            var existingImage = db.Personel.FirstOrDefault(p => p.FileName == Model.FileName);
             //personelin verilerini kaydeder
             var personel = new Personel()
             {
-                DepartmanId = model.DepartmanId,
-                Name = model.Name,
-                SurName = model.SurName,
-                Wage = model.Wage,
-                BirthDate = model.BirthDate,
-                Gender = model.Gender,
-                Married = model.Married,
-                FileName = model.FileName,
+                DepartmanId = Model.DepartmanId,
+                Name = Model.Name,
+                SurName = Model.SurName,
+                Wage = Model.Wage,
+                BirthDate = Model.BirthDate,
+                Gender = Model.Gender,
+                Married = Model.Married,
+                FileName = Model.FileName,
             };
             db.Personel.Add(personel);
             db.SaveChanges();
 
             return RedirectToAction("Index");
         }
-        [Authorize(Roles = "Admin")]
+        [HttpGet]
         public ActionResult Guncelle(int id)
         {
             var model = db.Personel.FirstOrDefault(x => x.Id == id);
@@ -80,10 +96,10 @@ namespace Proje.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Departmanlar = db.Departman.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList(); 
-            //güncellenecek personelin verilerini alarak ekrana verir
+            ViewBag.Departmanlar = db.Departman.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
             var editModel = new PersonelEditViewModel
             {
+                Id = id,
                 DepartmanId = model.DepartmanId,
                 Name = model.Name,
                 SurName = model.SurName,
@@ -96,45 +112,47 @@ namespace Proje.Controllers
             return View("PersonelGuncelle", editModel);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Guncelle(PersonelEditViewModel model, HttpPostedFileBase file, Personel personel)
+        public ActionResult Guncelle(PersonelEditViewModel model, HttpPostedFileBase uploadFile)
         {
-            //Resim Eklendimi Kontrol eder
-            if (Request.Files.Count == 1 && Request.Files[0] != null)
+            if (ModelState.IsValid)
             {
-                var uploadedFile = Request.Files[0];
-                string dosyaAdi = Path.GetFileName(uploadedFile.FileName);
-                string uzanti = Path.GetExtension(uploadedFile.FileName);
-                string yol = "~/Images/" + dosyaAdi + uzanti;
-                uploadedFile.SaveAs(Server.MapPath(yol));
-                model.FileName = "~/Images/" + dosyaAdi + uzanti;
+                var Model = db.Personel.FirstOrDefault(x => x.Id == model.Id);
+
+                if (uploadFile != null && uploadFile.ContentLength > 0)
+                {
+                    var tempImageDirectory = Server.MapPath("~/Content/uploads/");
+                    var fileName = $"{Guid.NewGuid():N}{Path.GetExtension(uploadFile.FileName)}";
+                    var pathImage = Path.Combine(tempImageDirectory, fileName);
+
+                    // Eğer yeni dosya yüklendi ise, eski dosyayı silerek yeni dosyayı kaydet
+                    if (!Directory.Exists(tempImageDirectory))
+                        Directory.CreateDirectory(tempImageDirectory);
+
+                    uploadFile.SaveAs(pathImage);
+
+                    // Eski dosyayı sil
+                    if (!string.IsNullOrEmpty(Model.FileName))
+                    {
+                        var oldFilePath = Path.Combine(tempImageDirectory, Model.FileName);
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            System.IO.File.Delete(oldFilePath);
+                        }
+                    }
+
+                    Model.FileName = fileName;
+                }
+                Model.Name = model.Name;
+                Model.SurName = model.SurName;
+                Model.DepartmanId = model.DepartmanId;
+                Model.Wage = model.Wage;
+                Model.BirthDate = model.BirthDate;
+                Model.Gender = model.Gender;
+                Model.Married = model.Married;
+                db.SaveChanges();
+                return RedirectToAction("Index", "Personel");
             }
-            if (!ModelState.IsValid)
-            {
-                return View("PersonelGuncelle", model);
-            }
-
-            var PersonelGuncelle = db.Personel.Find(model.Id);
-
-          
-
-            if (PersonelGuncelle == null)
-            {
-                return HttpNotFound();
-            }
-            //personelin yeni verilerini kaydeder
-            PersonelGuncelle.Name = model.Name;
-            PersonelGuncelle.SurName = model.SurName;
-            PersonelGuncelle.DepartmanId = model.DepartmanId;
-            PersonelGuncelle.Wage = model.Wage;
-            PersonelGuncelle.BirthDate = model.BirthDate;
-            PersonelGuncelle.Gender = model.Gender;
-            PersonelGuncelle.Married = model.Married;
-            PersonelGuncelle.FileName = model.FileName;
-
-            db.Entry(PersonelGuncelle).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("PersonelGuncelle", "Personel");
         }
         public ActionResult PersonelDetay(int id)
         {
@@ -164,7 +182,7 @@ namespace Proje.Controllers
         }
         public ActionResult PersonelleriListele(int id)
         {
-            //personeli güncelleme işlemi yapar
+            //personeli listeleme işlemi yapar
             var model = db.Personel.Where(x => x.DepartmanId == id).ToList();
             return PartialView(model);
         }

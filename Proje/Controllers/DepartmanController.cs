@@ -26,54 +26,52 @@ namespace Proje.Controllers
         [HttpGet]
         public ActionResult DepartmanForm()
         {
-            return View("DepartmanForm", new Departman());
+            var model = new DepartmanFormViewModel();
+            return View("DepartmanForm", model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Kaydet(Departman departman)
+        public ActionResult Kaydet(DepartmanFormViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View("DepartmanForm", departman);
+                return View("DepartmanForm", model);
             }
-            //Departman ismini kontrol eder ve aynı departman ismi zaten kayıtlıysa hata verir
-            var departmanAdiVarmi = db.Departman.FirstOrDefault(d => d.Name == departman.Name);
-            if (departmanAdiVarmi != null)
+            var yeniDepartman = new Departman()
             {
-                ModelState.AddModelError("Name", "Bu isimde bir departman zaten mevcut.");
-                return View("DepartmanForm", departman);
-            }
-            //Departman id kontrol eder ve 0 a eşitse departmanı kaydeder
-            if (departman.Id == 0)
-            {
-                db.Departman.Add(departman);
-            }
-            else
-            {//Departman id kontrol ettikten sonra 0 a eşit değilse hata verir
-                var guncellenecekDepartman = db.Departman.Find(departman.Id);
-                if (guncellenecekDepartman == null)
-                {
-                    return HttpNotFound();
-                }
-                guncellenecekDepartman.Name = departman.Name;
-            }
+                Name = model.Name
+            };
+            db.Departman.Add(yeniDepartman);
             db.SaveChanges();
-
-            MesajVievModelController model = new MesajVievModelController();
-            model.Status = true;
-            model.Mesaj = departman.Name + (departman.Id == 0 ? " Departman Adı Eklendi " : " Departman Adı Güncellendi ");
-            model.LinkText = "Departman Listesi";
-            model.Url = "/Departman/Index";
-
-            return View("_Mesaj", model);
+            return RedirectToAction("Index");
         }
+        [HttpGet]
         public ActionResult Guncelle(int id)
         {
-
-            var model = db.Departman.Find(id);
+            var model = db.Departman.FirstOrDefault(x => x.Id == id);
             if (model == null)
+            {
                 return HttpNotFound();
-            return View("DepartmanForm", model);
+            }
+
+            var editModel = new DepartmanEditViewModel
+            {
+                Id = id, 
+                Name = model.Name,
+            };
+
+            return View("Guncelle", editModel);
+        }
+        public ActionResult Guncelle(DepartmanEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var Model = db.Departman.FirstOrDefault(x=>x.Id == model.Id);
+                Model.Name= model.Name;
+                db.SaveChanges();
+                return RedirectToAction("Index","Departman");
+            }
+            return RedirectToAction("Guncelle","Personel");
         }
         [HttpPost]
         public ActionResult Personelvarmi(int departmanId)

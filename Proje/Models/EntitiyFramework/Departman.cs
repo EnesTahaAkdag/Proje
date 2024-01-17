@@ -20,11 +20,8 @@ namespace Proje.Models.EntitiyFramework
         {
             this.Personel = new HashSet<Personel>();
         }
-    
+
         public long Id { get; set; }
-        [Display(Name = "Departman Adý")]
-        [Required(ErrorMessage = "Departman Adýný Boþ Býrakýlamaz")]
-        [StringLength(50, ErrorMessage = "50 Karakterden Fazla Kakrakter Giriþi Yapýlamaz")]
         public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

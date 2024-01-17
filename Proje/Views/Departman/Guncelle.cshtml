@@ -1,0 +1,22 @@
+﻿@model Proje.ViewModels.DepartmanEditViewModel
+@{
+    ViewBag.Title = "Yeni";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="mesaj">
+</div>
+@using (Html.BeginForm("Guncelle", "Departman", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "mesaj" }))
+{
+    @Html.HiddenFor(m=>m.Id)
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Departman Adı Giriniz", @maxlength = "50", required = "required" })
+        <p style="color:red;font-size:10px;">En Fazka 50 Karakter Girişi Yaplabilir.</p>
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+
+    <button type="submit" class="btn btn-success">Kaydet</button>
+
+    <a href="/Departman/Index" class="btn btn-danger" id="iptalButton">İptal</a>
+}

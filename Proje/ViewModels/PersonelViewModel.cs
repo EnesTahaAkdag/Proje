@@ -9,37 +9,24 @@ namespace Proje.ViewModels
 {
     public class PersonelViewModel
     {
-
         public long? DepartmanId { get; set; }
-
         [Required(ErrorMessage = "Personel Adı Boş Bırakılamaz")]
         [StringLength(50, ErrorMessage = "50 Karakterden Fazla Karakter Girişi Yapılamaz")]
         public string Name { get; set; }
-
         [Required(ErrorMessage = "Personel Soyadı Boş Bırakılamaz")]
         [StringLength(50, ErrorMessage = "50 Karakterden Fazla Karakter Girişi Yapılamaz")]
         public string SurName { get; set; }
-
         [Required(ErrorMessage = "Personel Maaşı Boş Bırakılamaz")]
         public decimal Wage { get; set; }
-
         [Required(ErrorMessage = "Personel Doğum Tarihi Boş Bırakılamaz")]
         public DateTime BirthDate { get; set; }
-
         [Required(ErrorMessage = "Personel Cinsiyeti Boş Bırakılamaz")]
         public bool Gender { get; set; }
-
-
         public bool Married { get; set; }
-
-        //[Required(ErrorMessage ="Lütfen Personel Resmi Ekleyiniz")]
         public string FileName { get; set; }
     }
 
-    public class PersonelAddViewModel : PersonelViewModel
-    {
-
-    }
+    public class PersonelAddViewModel : PersonelViewModel { }
 
     public class PersonelEditViewModel : PersonelViewModel
     {

@@ -530,6 +530,7 @@
     <Content Include="Views\Kullanici\Index.cshtml" />
     <Content Include="Views\Shared\_Mesaj.cshtml" />
     <Content Include="Views\Personel\PersonelGuncelle.cshtml" />
+    <Content Include="Views\Departman\Guncelle.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -539,6 +540,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\uploads\" />
     <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
