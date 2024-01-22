@@ -62,6 +62,7 @@ namespace Proje.Controllers
 
             return View("Guncelle", editModel);
         }
+        [HttpPost]
         public ActionResult Guncelle(DepartmanEditViewModel model)
         {
             if (ModelState.IsValid)
