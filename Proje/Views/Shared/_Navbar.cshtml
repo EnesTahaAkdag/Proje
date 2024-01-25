@@ -1,15 +1,18 @@
 ﻿<nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <div class="navbar-brand">Personel Yönetim Sistemi</div>
-            <div class="navbar-brand" >Hoş Geldin @HttpContext.Current.User.Identity.Name</div>
+            <a class="navbar-brand" href="#">Personel Yönetim Sistemi</a>
         </div>
+        <ul class="nav navbar-nav" style="font-size: 15px;">
+            <li>@Html.ActionLink("Hoş Geldin, " + User.Identity.Name, "Profiles", "Kullanici", new { name = User.Identity.Name }, null)</li>
+        </ul>
+
         <ul class="nav navbar-nav">
             <li><a href="/Departman/Index">Departmanlar</a></li>
             <li><a href="/Personel/Index">Personeller</a></li>
             @if (User.IsInRole("Admin"))
             {
-                <li><a href="/Kullanici">Kullanıcılar</a></li>
+                <li><a href="/Kullanici/Index">Kullanıcılar</a></li>
             }
             <li><a href="/Security/Logout/">Çıkış Yap</a></li>
         </ul>

@@ -15,11 +15,12 @@ namespace Proje.Controllers
         private PersonelDBEntities db = new PersonelDBEntities();
 
         // GET: Kullanici
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View(db.Kullanici.ToList());
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: Kullanici/Details/5
         public ActionResult Details(long? id)
         {
@@ -27,29 +28,34 @@ namespace Proje.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Kullanici kullanici = db.Kullanici.Find(id);
+
+            // Kullanıcı adına göre sorgu yapın
+            Kullanici kullanici = db.Kullanici.Where(k => k.Id == id).FirstOrDefault();
+
             if (kullanici == null)
             {
                 return HttpNotFound();
             }
+
             return View(kullanici);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             var model = new Kullanici();
             return View(model);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Password,Role")] Kullanici kullanici)
         {
             var kullaniciAdiVarmi = db.Kullanici.FirstOrDefault(k => k.Name == kullanici.Name);
-            if(kullaniciAdiVarmi!=null)
+            if (kullaniciAdiVarmi != null)
             {
                 ModelState.AddModelError("Name", "Bu isimde bir Kullanıcı zaten mevcut.");
-                return View(kullanici); 
+                return View(kullanici);
             }
             if (ModelState.IsValid)
             {
@@ -60,7 +66,7 @@ namespace Proje.Controllers
 
             return View(kullanici);
         }
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -74,7 +80,7 @@ namespace Proje.Controllers
             }
             return View(kullanici);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Password,Role")] Kullanici kullanici)
@@ -87,7 +93,7 @@ namespace Proje.Controllers
             }
             return View(kullanici);
         }
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(long? id)
         {
             if (id == null)
@@ -101,7 +107,7 @@ namespace Proje.Controllers
             }
             return View(kullanici);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
@@ -111,7 +117,7 @@ namespace Proje.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "Admin")]
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -119,6 +125,24 @@ namespace Proje.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        [HttpGet]
+        public ActionResult Profiles(string name)
+        {
+            if (name == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // Kullanıcı adına göre sorgu yapın
+            Kullanici kullanici = db.Kullanici.Where(k => k.Name == name).FirstOrDefault();
+
+            if (kullanici == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(kullanici);
         }
     }
 }

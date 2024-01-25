@@ -44,8 +44,8 @@ namespace Proje.Security
         public override string[] GetRolesForUser(string username)
         {
             PersonelDBEntities db = new PersonelDBEntities();
-            var kullanici = db.Kullanici.FirstOrDefault(x => x.Name == username);
-            return new string[] { kullanici.Role };
+            var user = db.Kullanici.FirstOrDefault(x => x.Name == username);
+            return new string[] { user.Role };  
         }
 
         public override string[] GetUsersInRole(string roleName)

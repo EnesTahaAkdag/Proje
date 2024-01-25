@@ -16,17 +16,14 @@ using System.Data.Entity.Core.Metadata.Edm;
 namespace Proje.Controllers
 {
     [Authorize]
-
     public class PersonelController : Controller
     {
         PersonelDBEntities db = new PersonelDBEntities();
-
         public ActionResult Index()
         {
             var model = db.Personel.ToList();
             return View(model);
         }
-
         [Authorize(Roles = "Admin")]
         public ActionResult Yeni()
         {

@@ -17,7 +17,6 @@ namespace Proje.Controllers
     public class DepartmanController : Controller
     {
         PersonelDBEntities db = new PersonelDBEntities();
-
         public ActionResult Index()
         {
             var model = db.Departman.ToList();
@@ -56,7 +55,7 @@ namespace Proje.Controllers
 
             var editModel = new DepartmanEditViewModel
             {
-                Id = id, 
+                Id = id,
                 Name = model.Name,
             };
 
@@ -67,12 +66,12 @@ namespace Proje.Controllers
         {
             if (ModelState.IsValid)
             {
-                var Model = db.Departman.FirstOrDefault(x=>x.Id == model.Id);
-                Model.Name= model.Name;
+                var Model = db.Departman.FirstOrDefault(x => x.Id == model.Id);
+                Model.Name = model.Name;
                 db.SaveChanges();
-                return RedirectToAction("Index","Departman");
+                return RedirectToAction("Index", "Departman");
             }
-            return RedirectToAction("Guncelle","Personel");
+            return RedirectToAction("Guncelle", "Personel");
         }
         [HttpPost]
         public ActionResult Personelvarmi(int departmanId)

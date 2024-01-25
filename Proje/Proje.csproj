@@ -531,6 +531,7 @@
     <Content Include="Views\Shared\_Mesaj.cshtml" />
     <Content Include="Views\Personel\PersonelGuncelle.cshtml" />
     <Content Include="Views\Departman\Guncelle.cshtml" />
+    <Content Include="Views\Kullanici\Profiles.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

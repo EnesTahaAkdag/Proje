@@ -13,7 +13,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-group">
-        <label for="Name">İsim</label>
+        <label for="Name">Ad</label>
         @Html.TextBoxFor(m => m.Name, new { @class = "form-control", id = "Name" , @maxlength = "30" })
         @Html.ValidationMessageFor(m => m.Name)
     </div>

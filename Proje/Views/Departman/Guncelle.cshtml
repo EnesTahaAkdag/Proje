@@ -7,10 +7,10 @@
 </div>
 @using (Html.BeginForm("Guncelle", "Departman", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "mesaj" }))
 {
-    @Html.HiddenFor(m=>m.Id)
+    @Html.HiddenFor(m => m.Id)
     @Html.AntiForgeryToken()
     <div class="form-group">
-        @Html.LabelFor(m => m.Name)
+        <label>Departman Adı</label><br />
         @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Departman Adı Giriniz", @maxlength = "50", required = "required" })
         <p style="color:red;font-size:10px;">En Fazka 50 Karakter Girişi Yaplabilir.</p>
         @Html.ValidationMessageFor(m => m.Name)

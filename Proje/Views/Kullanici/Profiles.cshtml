@@ -1,13 +1,11 @@
 ﻿@model Proje.Models.EntitiyFramework.Kullanici
-
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Sil</h2>
+<h2>Profil</h2>
 
-<h3>Silmek İstediğinize Emin Misiniz?</h3>
 <div>
     <h4>Kullanıcı</h4>
     <hr />
@@ -37,14 +35,7 @@
         </dd>
 
     </dl>
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Sil" class="btn btn-danger" /> |
-            <a href="~/Kullanici/Index" class="btn btn-primary" id="iptalButton">Kullanıcı Listesine Dön</a>
-        </div>
-    }
 </div>
+<p>
+    <a href="~/Departman/Index" class="btn btn-primary" id="iptalButton">Departman Listesi</a>
+</p>

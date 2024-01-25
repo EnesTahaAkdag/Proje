@@ -12,9 +12,7 @@ namespace Proje.Controllers
     [AllowAnonymous]
     public class SecurityController : Controller
     {
-
         PersonelDBEntities db = new PersonelDBEntities();
-        // GET: Security
         public ActionResult Login()
         {
             var model = new Kullanici();
@@ -27,7 +25,7 @@ namespace Proje.Controllers
             if (kullaniciIndb != null)
             {
                 FormsAuthentication.SetAuthCookie(kullaniciIndb.Name, true);
-                int kullaniciID = (int)kullaniciIndb.Id;
+                string kullaniciID = kullaniciIndb.Name;
                 return RedirectToAction("Index", "Departman", new { id = kullaniciID });
             }
             else
@@ -41,6 +39,5 @@ namespace Proje.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
-
     }
 }
