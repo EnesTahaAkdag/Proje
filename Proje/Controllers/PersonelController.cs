@@ -85,6 +85,7 @@ namespace Proje.Controllers
 
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Guncelle(int id)
         {
@@ -165,8 +166,8 @@ namespace Proje.Controllers
 
             return RedirectToAction("Index", imagePath);
         }
-        [HttpPost]
         [Authorize(Roles = "Admin")]
+        [HttpPost]
         public ActionResult Sil(int personelId)
         {
             //personeli silme işlemi yapar

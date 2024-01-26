@@ -14,14 +14,12 @@ namespace Proje.Controllers
     {
         private PersonelDBEntities db = new PersonelDBEntities();
 
-        // GET: Kullanici
         [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View(db.Kullanici.ToList());
         }
         [Authorize(Roles = "Admin")]
-        // GET: Kullanici/Details/5
         public ActionResult Details(long? id)
         {
             if (id == null)
@@ -39,7 +37,6 @@ namespace Proje.Controllers
 
             return View(kullanici);
         }
-
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {

@@ -1,11 +1,23 @@
-﻿
+﻿$(function () {
+    $("#tblKullanicilar").DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+        }
+    });
+});
 $(function () {
     $("#tblDepartmanlar").DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
         }
     });
-
+});
+$(function () {
+    $("#tblPersoneller").DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+        }
+    });
 });
 $(function () {
     $("#tblDepartmanlar").on("click", ".btnDepartmanSil", function () {

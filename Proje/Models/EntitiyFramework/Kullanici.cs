@@ -11,12 +11,16 @@ namespace Proje.Models.EntitiyFramework
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Kullanici
     {
         public long Id { get; set; }
+        [Required(ErrorMessage = "Kullanýcý Adý Boþ Býrakýlamaz")]
         public string Name { get; set; }
+        [Required(ErrorMessage = "Kullanýcý Þifresi Boþ Býrakýlamaz")]
         public string Password { get; set; }
+        [Required(ErrorMessage = "Kullanýcý Rolü Boþ Býrakýlamaz")]
         public string Role { get; set; }
     }
 }

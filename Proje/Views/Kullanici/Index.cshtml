@@ -8,7 +8,7 @@
 <p>
     <a href="~/Kullanici/Create/" class="btn btn-success" id="CreateButton">Yeni Kullanıcı</a><br>
 </p>
-<table class="table">
+<table class="table" id="tblKullanicilar">
     <tr>
         <th>
             <label>Kullanıcı Adı</label>
@@ -21,7 +21,7 @@
         </th>
         <th></th>
     </tr>
-    @foreach (var item in Model)
+    @foreach (var item in Model.OrderBy(u => u.Role)) // Kullanıcıları Role göre sırala
     {
         <tr>
             <td style="vertical-align:middle">
@@ -37,10 +37,12 @@
                 @if (item.Name == HttpContext.Current.User.Identity.Name || item.Role != "Admin")
                 {
                     <a href="~/Kullanici/Details/@item.Id" class="btn btn-primary" id="DetailsButton">Detaylar</a><label> |</label>
+                    <a href="~/Kullanici/Edit/@item.Id" class="btn btn-success" id="EditButton">Güncelle</a>
+
                 }
                 @if (item.Role != "Admin")
                 {
-                    <a href="~/Kullanici/Edit/@item.Id" class="btn btn-success" id="EditButton">Güncelle</a><label> |</label>
+                    @*<a href="~/Kullanici/Edit/@item.Id" class="btn btn-success" id="EditButton">Güncelle</a><label> |</label>*@
                     <a href="~/Kullanici/Delete/@item.Id" class="btn btn-danger" id="SilButton">Sil</a>
                 }
             </td>

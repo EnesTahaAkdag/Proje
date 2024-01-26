@@ -27,14 +27,9 @@
                 <td>@departman.Name</td>
                 <td><a class="btn btn-success" href="/Departman/Guncelle/@departman.Id">Güncelle</a></td>
                 <td><a class="btn btn-danger btnDepartmanSil" data-id="@departman.Id" >Sil</a></td>
-                <td>
-                    @Ajax.ActionLink("Personelleri Göster", "PersonelleriListele", "Personel", new { id = departman.Id },
-                    new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "personelListesi" }, new { @class = "btn btn-primary" })
-                </td>
+                <td>@Ajax.ActionLink("Personelleri Göster", "PersonelleriListele", "Personel", new { id = departman.Id },new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "personelListesi" }, new { @class = "btn btn-primary" })</td>
             </tr>
         }
     </tbody>
 </table>
 <div id="personelListesi"></div>
-
-
