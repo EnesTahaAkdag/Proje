@@ -20,8 +20,15 @@
             <th>Doğum Tarihi</th>
             <th>Cinsiyet</th>
             <th>Evlilik Durumu</th>
-            <th>Güncelle</th>
-            <th>Sil</th>
+            @if (User.IsInRole("User"))
+            {
+
+            }
+            else
+            {
+                <th>Güncelle</th>
+                <th>Sil</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -51,10 +58,16 @@
                 <td style="vertical-align:middle;">@personel.BirthDate.Value.ToString("dd-MM-yyyy")</td>
                 <td style="vertical-align:middle;">@(personel.Gender == true ? "Erkek" : "Kadın")</td>
                 <td style="vertical-align:middle;">@(personel.Married == true ? "Evli" : "Bekar")</td>
+                @if (User.IsInRole("User"))
+                {
+
+                }
+                else
+                {
                 <td style="vertical-align:middle;"><a href="@Url.Action("Guncelle","Personel", new { id = personel.Id })" class="btn btn-success">Güncelle</a></td>
                 <td style="vertical-align:middle;"><a class="btn btn-danger btnPersonelSil" data-id="@personel.Id">Sil</a></td>
+                }
             </tr>
-
         }
     </tbody>
 </table>

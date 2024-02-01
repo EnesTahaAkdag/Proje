@@ -69,15 +69,13 @@
         <div>
             <input type="file" name="uploadFile" id="ImageFile" accept="image/*" style="flex: 1; display: none;" />
             <img src="~/Content/uploads/@Model.FileName" alt="" id="imagePreview" class="yuvarlak" style="height:150px;width:150px; object-fit:contain; flex: 1;" required />
-            <p style="font-size: 14px; color: red">Resminizi seçin.</p>
         </div>
+
+        <button class="btn btn-primary btn-sm" type="button" id="selectImage">Resim Seç</button>
+        <button class="btn btn-danger btn-sm" type="button" id="deleteImage">Resim Sil</button>
+
+        <br />
     </div>
-
-    <button class="btn btn-primary btn-sm" type="button" id="selectImage">Resim Seç</button>
-    <button class="btn btn-danger btn-sm" type="button" id="deleteImage">Resim sil</button>
-
-    <br />
-
     <div class="clearfix"></div>
 
     <center class="col-lg-4 col-sm-4 col-md-4 pull-right">
@@ -88,34 +86,28 @@
 
     @ViewBag.Message
 }
-<script>
-    document.getElementById('selectImage').addEventListener('click', function (e) {
-        document.getElementById('ImageFile').click();
-    });
+    <script>
+        document.getElementById('selectImage').addEventListener('click', function (e) {
+            document.getElementById('ImageFile').click();
+        });
 
-    document.getElementById('ImageFile').addEventListener('change', function (e) {
-        var fileInput = e.target;
-        var imagePreview = document.getElementById('imagePreview');
-        if (fileInput.files && fileInput.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                imagePreview.src = e.target.result;
-            };
-            reader.readAsDataURL(fileInput.files[0]);
-        } else {
+        document.getElementById('ImageFile').addEventListener('change', function (e) {
+            var fileInput = e.target;
+            var imagePreview = document.getElementById('imagePreview');
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                imagePreview.src = '#';
+            }
+        });
+
+        document.getElementById('deleteImage').addEventListener('click', function () {
+            var imagePreview = document.getElementById('imagePreview');
             imagePreview.src = '#';
-        }
-    });
-    function updatePreview() {
-        var input = $("#imageInput")[0];
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $("#previewImage").attr("src", e.target.result).show();
-            };
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-</script>
+            document.getElementById('ImageFile').value = ''; 
+        });
+    </script>

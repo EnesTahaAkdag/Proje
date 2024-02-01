@@ -190,5 +190,6 @@ namespace Proje.Controllers
             ViewBag.Maas = db.Personel.Sum(x => x.Wage);
             return PartialView();
         }
+        
     }
 }

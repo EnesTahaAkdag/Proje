@@ -14,13 +14,13 @@
 
     <div class="form-group">
         <label for="Name">Ad</label>
-        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", id = "Name" , @maxlength = "30" })
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", id = "Name", @maxlength = "30" })
         @Html.ValidationMessageFor(m => m.Name)
     </div>
 
     <div class="form-group">
         <label for="SurName">Soyad</label>
-        @Html.TextBoxFor(m => m.SurName, new { @class = "form-control", id = "SurName" , @maxlength = "30" })
+        @Html.TextBoxFor(m => m.SurName, new { @class = "form-control", id = "SurName", @maxlength = "30" })
         @Html.ValidationMessageFor(m => m.SurName)
     </div>
 
@@ -69,19 +69,18 @@
         <div>
             <input type="file" name="uploadFile" id="ImageFile" accept="image/*" style="flex: 1; display: none;" />
             <img src="~/Content/uploads/@Model.FileName" alt="" id="imagePreview" class="yuvarlak" style="height:150px;width:150px; object-fit:contain; flex: 1;" required />
-            <p style="font-size: 14px; color: red">Resminizi seçin.</p>
         </div>
     </div>
+
+    <br />
 
     <button class="btn btn-primary btn-sm" type="button" id="selectImage">Resim Seç</button>
     <button class="btn btn-danger btn-sm" type="button" id="deleteImage">Resim sil</button>
 
-    <br />
-
     <div class="clearfix"></div>
 
     <center class="col-lg-4 col-sm-4 col-md-4 pull-right">
-        <button type="submit" class="btn btn-success pull-right">Kaydet</button> 
+        <button type="submit" class="btn btn-success pull-right">Kaydet</button>
         <a href="/Personel/Index" class="btn btn-danger pull-right" id="iptalButton">İptal</a>
     </center>
 
@@ -108,4 +107,5 @@
             imagePreview.src = '#';
         }
     });
+
 </script>
