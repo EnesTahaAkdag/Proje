@@ -30,7 +30,7 @@ namespace Proje.Controllers
             }
             else
             {
-                ViewBag.Mesaj = "geçersinz kullanıcı Adı veya Şifre";
+                ViewBag.Mesaj = "Şifreniz veya Kullanıcı Adınız hatalıdır";
                 return View(kullanici);
             }
         }

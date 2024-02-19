@@ -12,6 +12,7 @@ using System.IO;
 using System.Runtime.Remoting.Contexts;
 using Microsoft.Ajax.Utilities;
 using System.Data.Entity.Core.Metadata.Edm;
+using Microsoft.Web.Mvc;
 
 namespace Proje.Controllers
 {
@@ -178,6 +179,19 @@ namespace Proje.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        [HttpPost,AjaxOnly]
+        public ActionResult ResimSil(int id)
+        {
+            var silinecekResim = db.Personel.Find(id);
+            if (silinecekResim == null)
+            {
+                return HttpNotFound();
+            }
+            silinecekResim.FileName = null;
+            db.SaveChanges();
+            return Json(new { success = true, message = "Resim başarıyla silindi." });
+        }
+
         public ActionResult PersonelleriListele(int id)
         {
             //personeli listeleme işlemi yapar

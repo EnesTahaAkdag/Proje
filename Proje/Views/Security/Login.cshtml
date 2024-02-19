@@ -23,11 +23,13 @@
             <div class="form-group sifre">
                 <label>Şifre</label>
                 @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Parola", required = "required", @maxlength = "10", @minlength = "4" })
-                @ViewBag.Mesaj
-                @Html.HiddenFor(m=>m.Id)
-                </div>
+                <span style="color:red">
+                    @ViewBag.Mesaj
+                </span>
+                @Html.HiddenFor(m => m.Id)
+            </div>
             <button type="submit" class="btn btn-block btn-success">Giriş Yap</button>
         }
-    </div> 
+    </div>
 </body>
 </html>

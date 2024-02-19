@@ -7,7 +7,11 @@
 
 <h2>Personel Formu</h2>
 
-@using (Html.BeginForm("Guncelle", "Personel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Guncelle", "Personel", FormMethod.Post, new
+{
+    enctype = "multipart/form-data",
+    id = "tblPersonelGuncelle"
+}))
 {
     @Html.HiddenFor(m => m.Id)
     @Html.AntiForgeryToken()
@@ -70,11 +74,10 @@
             <input type="file" name="uploadFile" id="ImageFile" accept="image/*" style="flex: 1; display: none;" />
             <img src="~/Content/uploads/@Model.FileName" alt="" id="imagePreview" class="yuvarlak" style="height:150px;width:150px; object-fit:contain; flex: 1;" required />
         </div>    <br />
-
         <button class="btn btn-primary btn-sm" type="button" id="selectImage">Resim Ekle</button>
-        <button class="btn btn-danger btn-sm" type="button" id="deleteImage">Resim sil</button>
+        <button class="btn btn-danger btn-sm deleteImage" data-id="@Model.Id" id="deleteImage" type="button">Resim sil</button>
     </div>
-    
+
 
     <div class="clearfix"></div>
 
@@ -107,9 +110,9 @@
         }
     });
     document.getElementById('deleteImage').addEventListener('click', function () {
-    var imagePreview = document.getElementById('imagePreview');
-    imagePreview.src = '#';
-    document.getElementById('ImageFile').value = ''; 
+        var imagePreview = document.getElementById('imagePreview');
+        imagePreview.src = '#';
+        document.getElementById('ImageFile').value = '';
     });
 
 </script>
