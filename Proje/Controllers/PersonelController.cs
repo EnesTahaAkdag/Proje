@@ -182,6 +182,7 @@ namespace Proje.Controllers
         [HttpPost,AjaxOnly]
         public ActionResult ResimSil(int id)
         {
+            //Personelin Resmini Silme İşlemi Yapar
             var silinecekResim = db.Personel.Find(id);
             if (silinecekResim == null)
             {

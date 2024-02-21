@@ -7,11 +7,7 @@
 
 <h2>Personel Formu</h2>
 
-@using (Html.BeginForm("Guncelle", "Personel", FormMethod.Post, new
-{
-    enctype = "multipart/form-data",
-    id = "tblPersonelGuncelle"
-}))
+@using (Html.BeginForm("Guncelle", "Personel", FormMethod.Post, new { enctype = "multipart/form-data", id = "tblPersonelGuncelle" }))
 {
     @Html.HiddenFor(m => m.Id)
     @Html.AntiForgeryToken()
@@ -72,10 +68,12 @@
         <label for="PersonelGorsel">Resim Seçiniz</label>
         <div>
             <input type="file" name="uploadFile" id="ImageFile" accept="image/*" style="flex: 1; display: none;" />
-            <img src="~/Content/uploads/@Model.FileName" alt="" id="imagePreview" class="yuvarlak" style="height:150px;width:150px; object-fit:contain; flex: 1;" required />
-        </div>    <br />
-        <button class="btn btn-primary btn-sm" type="button" id="selectImage">Resim Ekle</button>
-        <button class="btn btn-danger btn-sm deleteImage" data-id="@Model.Id" id="deleteImage" type="button">Resim sil</button>
+            <button class="btn btn-primary btn-sm" type="button" id="selectImage">Resim Ekle</button>
+            <button class="btn btn-danger btn-sm deleteImage" id="deleteImage" type="button" style="display: none;">Resim Sil</button> <br /> <br />
+            <div style="height: 150px; width: 150px; overflow: hidden;">
+                <img src="~/Content/uploads/@Model.FileName" alt="" id="imagePreview" class="yuvarlak" style="object-fit: contain; width: 100%; height: 100%;" required />
+            </div>
+        </div>
     </div>
 
 
@@ -95,7 +93,6 @@
     document.getElementById('selectImage').addEventListener('click', function (e) {
         document.getElementById('ImageFile').click();
     });
-
     document.getElementById('ImageFile').addEventListener('change', function (e) {
         var fileInput = e.target;
         var imagePreview = document.getElementById('imagePreview');
@@ -109,10 +106,4 @@
             imagePreview.src = '#';
         }
     });
-    document.getElementById('deleteImage').addEventListener('click', function () {
-        var imagePreview = document.getElementById('imagePreview');
-        imagePreview.src = '#';
-        document.getElementById('ImageFile').value = '';
-    });
-
 </script>
