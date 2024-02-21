@@ -85,34 +85,29 @@
     <div id="mesaj"></div>
 
     @ViewBag.Message
-    }
+}
 <script>
-        document.getElementById('selectImage').addEventListener('click', function (e) {
-            document.getElementById('ImageFile').click();
-        });
+    document.getElementById('selectImage').addEventListener('click', function (e) {
+        document.getElementById('ImageFile').click();
+    });
 
-        document.getElementById('ImageFile').addEventListener('change', function (e) {
-            var fileInput = e.target;
-            var imagePreview = document.getElementById('imagePreview');
-            if (fileInput.files && fileInput.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    imagePreview.src = e.target.result;
-                };
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                imagePreview.src = '#';
-            }
-        });
-
-        document.getElementById('deleteImage').addEventListener('click', function () {
-            var imagePreview = document.getElementById('imagePreview');
+    document.getElementById('ImageFile').addEventListener('change', function (e) {
+        var fileInput = e.target;
+        var imagePreview = document.getElementById('imagePreview');
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
             imagePreview.src = '#';
-            document.getElementById('ImageFile').value = '';
-        });
-        if ("@Model.FileName" !== "") {
-        document.getElementById("deleteImage").style.display = "inline-block";
-    } else {
-        document.getElementById("selectImage").style.display = "inline-block";
-    }
+        }
+    });
+
+    document.getElementById('deleteImage').addEventListener('click', function () {
+        var imagePreview = document.getElementById('imagePreview');
+        imagePreview.src = '#';
+        document.getElementById('ImageFile').value = '';
+    });
 </script>

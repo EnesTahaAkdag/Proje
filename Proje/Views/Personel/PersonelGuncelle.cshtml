@@ -69,7 +69,7 @@
         <div>
             <input type="file" name="uploadFile" id="ImageFile" accept="image/*" style="flex: 1; display: none;" />
             <button class="btn btn-primary btn-sm" type="button" id="selectImage">Resim Ekle</button>
-            <button class="btn btn-danger btn-sm deleteImage" id="deleteImage" type="button" style="display: none;">Resim Sil</button> <br /> <br />
+            <button class="btn btn-danger btn-sm deleteImage" data-id="@Model.Id" id="deleteImage" type="button" >Resim Sil</button> <br /> <br />
             <div style="height: 150px; width: 150px; overflow: hidden;">
                 <img src="~/Content/uploads/@Model.FileName" alt="" id="imagePreview" class="yuvarlak" style="object-fit: contain; width: 100%; height: 100%;" required />
             </div>
@@ -106,4 +106,5 @@
             imagePreview.src = '#';
         }
     });
+
 </script>
