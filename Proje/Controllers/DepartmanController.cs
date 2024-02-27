@@ -36,12 +36,21 @@ namespace Proje.Controllers
             {
                 return View("DepartmanForm", model);
             }
+
+            var departmanVarmı = db.Departman.FirstOrDefault(d => d.Name == model.Name);
+            if (departmanVarmı != null)
+            {
+                ModelState.AddModelError("Name", "Aynı isimde Departman Eklenemez");
+                return View("DepartmanForm", model); // ModelState geçersiz olduğunda doğrudan view'i tekrar göster
+            }
+
             var yeniDepartman = new Departman()
             {
                 Name = model.Name
             };
             db.Departman.Add(yeniDepartman);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
         [HttpGet]
